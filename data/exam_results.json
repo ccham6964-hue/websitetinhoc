@@ -1748,5 +1748,457 @@
       }
     ],
     "submitted_at": "2026-01-19T21:49:32.957870"
+  },
+  {
+    "id": "result_6_exam_6_f22278_814683",
+    "user_id": "6",
+    "username": "test1",
+    "grade": "6",
+    "exam_id": "exam_6_f22278",
+    "exam_title": "test",
+    "answers": {
+      "1": "A",
+      "2": "A",
+      "3": "A",
+      "4": "A",
+      "5": "A",
+      "6": "A",
+      "7": "A",
+      "8": "A",
+      "9": "B",
+      "10": "A",
+      "11": "A",
+      "12": "A",
+      "13": "B",
+      "14": "A",
+      "15": "A",
+      "16": "A",
+      "17": "A",
+      "18": "A",
+      "19": "A",
+      "20": "A",
+      "21": {
+        "type": "essay",
+        "essay_answer": "không biết làm"
+      },
+      "22": {
+        "type": "essay",
+        "essay_answer": "không biết làm"
+      }
+    },
+    "score": 2.3,
+    "correct_count": 5,
+    "total_questions": 22,
+    "details": [
+      {
+        "question_id": "1",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "2",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "3",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "4",
+        "user_answer": "A",
+        "correct_answer": "C",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "5",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "6",
+        "user_answer": "A",
+        "correct_answer": "C",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "7",
+        "user_answer": "A",
+        "correct_answer": "D",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "8",
+        "user_answer": "A",
+        "correct_answer": "C",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "9",
+        "user_answer": "B",
+        "correct_answer": "B",
+        "is_correct": true,
+        "score": 1.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "10",
+        "user_answer": "A",
+        "correct_answer": "A",
+        "is_correct": true,
+        "score": 1.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "11",
+        "user_answer": "A",
+        "correct_answer": "C",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "12",
+        "user_answer": "A",
+        "correct_answer": "A",
+        "is_correct": true,
+        "score": 1.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "13",
+        "user_answer": "B",
+        "correct_answer": "B",
+        "is_correct": true,
+        "score": 1.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "14",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "15",
+        "user_answer": "A",
+        "correct_answer": "C",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "16",
+        "user_answer": "A",
+        "correct_answer": "A",
+        "is_correct": true,
+        "score": 1.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "17",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "18",
+        "user_answer": "A",
+        "correct_answer": "C",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "19",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "20",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "21",
+        "user_answer": {
+          "type": "essay",
+          "essay_answer": "không biết làm"
+        },
+        "correct_answer": "",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "essay"
+      },
+      {
+        "question_id": "22",
+        "user_answer": {
+          "type": "essay",
+          "essay_answer": "không biết làm"
+        },
+        "correct_answer": "",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "essay"
+      }
+    ],
+    "submitted_at": "2026-01-19T22:38:41.644710"
+  },
+  {
+    "id": "result_6_exam_6_f22278_22fcd2",
+    "user_id": "6",
+    "username": "test1",
+    "grade": "6",
+    "exam_id": "exam_6_f22278",
+    "exam_title": "test",
+    "answers": {
+      "1": "A",
+      "2": "A",
+      "3": "A",
+      "4": "A",
+      "5": "A",
+      "6": "A",
+      "7": "A",
+      "8": "A",
+      "9": "A",
+      "10": "A",
+      "11": "A",
+      "12": "A",
+      "13": "A",
+      "14": "A",
+      "15": "A",
+      "16": "B",
+      "17": "C",
+      "18": "B",
+      "19": "A",
+      "20": "A",
+      "21": {
+        "type": "essay",
+        "essay_answer": "Internet là mạng máy tính toàn cầu, kết nối hàng tỷ thiết bị trên khắp thế giới, cho phép con người trao đổi thông tin, chia sẻ dữ liệu và giao tiếp với nhau một cách nhanh chóng.\nHai lợi ích của Internet trong học tập:\nTra cứu tài liệu dễ dàng: Học sinh có thể tìm kiếm sách, bài giảng, video học tập, đề thi… giúp mở rộng kiến thức và tự học hiệu quả.\nHọc tập trực tuyến: Internet cho phép tham gia các lớp học online, học qua video, làm bài kiểm tra và trao đổi với giáo viên, bạn bè mọi lúc, mọi nơi."
+      },
+      "22": {
+        "type": "essay",
+        "essay_answer": "Thuật toán tính tổng hai số a và b (bằng lời):\nBắt đầu.\nNhập hai số \na và 𝑏 từ bàn phím.\nTính tổng \nS=a+b.\nXuất kết quả\n𝑆\nS ra màn hình.\nKết thúc."
+      }
+    },
+    "score": 0.9,
+    "correct_count": 2,
+    "total_questions": 22,
+    "details": [
+      {
+        "question_id": "1",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "2",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "3",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "4",
+        "user_answer": "A",
+        "correct_answer": "C",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "5",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "6",
+        "user_answer": "A",
+        "correct_answer": "C",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "7",
+        "user_answer": "A",
+        "correct_answer": "D",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "8",
+        "user_answer": "A",
+        "correct_answer": "C",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "9",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "10",
+        "user_answer": "A",
+        "correct_answer": "A",
+        "is_correct": true,
+        "score": 1.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "11",
+        "user_answer": "A",
+        "correct_answer": "C",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "12",
+        "user_answer": "A",
+        "correct_answer": "A",
+        "is_correct": true,
+        "score": 1.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "13",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "14",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "15",
+        "user_answer": "A",
+        "correct_answer": "C",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "16",
+        "user_answer": "B",
+        "correct_answer": "A",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "17",
+        "user_answer": "C",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "18",
+        "user_answer": "B",
+        "correct_answer": "C",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "19",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "20",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "21",
+        "user_answer": {
+          "type": "essay",
+          "essay_answer": "Internet là mạng máy tính toàn cầu, kết nối hàng tỷ thiết bị trên khắp thế giới, cho phép con người trao đổi thông tin, chia sẻ dữ liệu và giao tiếp với nhau một cách nhanh chóng.\nHai lợi ích của Internet trong học tập:\nTra cứu tài liệu dễ dàng: Học sinh có thể tìm kiếm sách, bài giảng, video học tập, đề thi… giúp mở rộng kiến thức và tự học hiệu quả.\nHọc tập trực tuyến: Internet cho phép tham gia các lớp học online, học qua video, làm bài kiểm tra và trao đổi với giáo viên, bạn bè mọi lúc, mọi nơi."
+        },
+        "correct_answer": "",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "essay"
+      },
+      {
+        "question_id": "22",
+        "user_answer": {
+          "type": "essay",
+          "essay_answer": "Thuật toán tính tổng hai số a và b (bằng lời):\nBắt đầu.\nNhập hai số \na và 𝑏 từ bàn phím.\nTính tổng \nS=a+b.\nXuất kết quả\n𝑆\nS ra màn hình.\nKết thúc."
+        },
+        "correct_answer": "",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "essay"
+      }
+    ],
+    "submitted_at": "2026-01-19T22:47:08.141998"
   }
 ]

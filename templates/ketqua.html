@@ -117,7 +117,7 @@
                         <div class="col-md-6 mb-3">
                             <div class="ai-card weaknesses-card">
                                 <div class="ai-card-header">
-                                    <i class="fas fa-exclamation-triangle"></i> Điểm Yếu
+                                    <i class="fas fa-exclamation-triangle"></i> Điểm Cần Cải Thiện
                                 </div>
                                 <div class="ai-card-body">
                                     <div class="ai-list-content" id="weaknessesList"></div>
@@ -170,7 +170,7 @@
             lines.forEach(line => {
                 line = line.trim();
                 if (line) {
-                    // Loại bỏ emoji/số ở đầu nếu có (để thêm lại sau)
+                    // Loại bỏ ký tự bullet đầu dòng
                     const cleanLine = line.replace(/^[•\-\*✅⚠️❌🔥💡📚🎯\d️⃣\.\)]+\s*/, '');
                     html += `<li>${cleanLine}</li>`;
                 }
@@ -258,19 +258,26 @@ document.addEventListener('DOMContentLoaded', function() {
     const wrongCountBadge = document.getElementById('wrongCountBadge');
     const toggleHeader = document.getElementById('toggleWrongAnswers');
 
-    const sessionResult = sessionStorage.getItem('examResult');
-
-    if (sessionResult) {
-        try {
-            const result = JSON.parse(sessionResult);
-            displayWrongAnswers(result.wrong_answers);
-        } catch (e) {
-            console.error('❌ Lỗi đọc sessionStorage:', e);
+    // ✅ Ưu tiên lấy từ backend (Jinja2)
+    {% if wrong_answers %}
+        const wrongAnswers = {{ wrong_answers | tojson | safe }};
+        displayWrongAnswers(wrongAnswers);
+    {% else %}
+        // Fallback: thử đọc từ sessionStorage
+        const sessionResult = sessionStorage.getItem('examResult');
+        
+        if (sessionResult) {
+            try {
+                const result = JSON.parse(sessionResult);
+                displayWrongAnswers(result.wrong_answers);
+            } catch (e) {
+                console.error('⚠️ Lỗi đọc sessionStorage:', e);
+                showNoWrongAnswers();
+            }
+        } else {
             showNoWrongAnswers();
         }
-    } else {
-        showNoWrongAnswers();
-    }
+    {% endif %}
 
     function displayWrongAnswers(wrongAnswers) {
         spinner.style.display = 'none';
@@ -320,6 +327,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// Xóa sessionStorage khi rời trang
 document.querySelectorAll('.nav-link-btn').forEach(link => {
     link.addEventListener('click', () => {
         sessionStorage.removeItem('examResult');
@@ -391,11 +399,23 @@ document.querySelectorAll('.nav-link-btn').forEach(link => {
     font-size: 1.2rem;
 }
 
+.card-subtitle-text {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
 .progress-card {
     background: var(--bg-white);
     border: 1px solid var(--border-color);
     border-radius: 12px;
     box-shadow: var(--shadow-sm);
+}
+
+.progress-title {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 1.15rem;
+    margin-bottom: 1rem;
 }
 
 .progress-bar-container {
@@ -413,6 +433,7 @@ document.querySelectorAll('.nav-link-btn').forEach(link => {
     justify-content: center;
     transition: width 1s ease;
     color: white;
+    font-weight: 600;
 }
 
 /* ========== AI ANALYSIS STYLES - ĐÃ CẢI TIẾN ========== */
@@ -582,7 +603,13 @@ document.querySelectorAll('.nav-link-btn').forEach(link => {
     padding: 1.25rem 1.5rem;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.wrong-header:hover {
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
 }
 
 .wrong-title {
@@ -618,6 +645,28 @@ document.querySelectorAll('.nav-link-btn').forEach(link => {
     border-radius: 10px;
     padding: 1.25rem;
     margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.wrong-item:hover {
+    box-shadow: var(--shadow-sm);
+}
+
+.wrong-question {
+    color: var(--text-primary);
+    font-size: 1.05rem;
+    margin-bottom: 1rem;
+}
+
+.divider {
+    border-top: 1px solid var(--border-color);
+    margin: 0.75rem 0;
+}
+
+.answer-line {
+    color: var(--text-primary);
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
 }
 
 .answer-badge {
@@ -634,6 +683,68 @@ document.querySelectorAll('.nav-link-btn').forEach(link => {
 .correct-answer {
     background: var(--success-color);
     color: white;
+}
+
+.explanation-text {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+.alert-success-custom {
+    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+    border: 2px solid var(--success-color);
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+}
+
+.alert-success-custom h5 {
+    color: var(--success-color);
+    font-weight: 700;
+    margin-top: 1rem;
+}
+
+.success-icon {
+    font-size: 3rem;
+    color: var(--success-color);
+}
+
+.alert-info-custom {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    border: 2px solid var(--primary-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+/* ========== FEEDBACK ========== */
+.feedback-card {
+    background: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+}
+
+.feedback-title {
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.feedback-text {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    margin-bottom: 1rem;
+}
+
+.feedback-time {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-bottom: 0;
 }
 
 /* ========== BUTTONS ========== */
@@ -671,9 +782,22 @@ document.querySelectorAll('.nav-link-btn').forEach(link => {
     color: white;
 }
 
+.btn-secondary-custom:hover {
+    color: var(--text-primary);
+    border-color: var(--text-primary);
+}
+
 @media (max-width: 768px) {
+    .result-title {
+        font-size: 1.6rem;
+    }
+    
     .ai-title {
         font-size: 1.5rem;
+    }
+    
+    .score-display {
+        font-size: 2.5rem;
     }
     
     .btn-action {

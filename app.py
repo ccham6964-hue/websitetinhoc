@@ -1151,7 +1151,6 @@ def ket_qua_tracnghiem(grade, exam_id):
     """
     try:
         user_id = session.get('user_id')
-        
         results_file = 'data/exam_results.json'
         
         try:
@@ -1175,21 +1174,49 @@ def ket_qua_tracnghiem(grade, exam_id):
         
         result = matching_results[-1]
         
+        # ===== LẤY ĐỀ THI ĐỂ HIỂN THỊ CHI TIẾT CÂU SAI =====
+        json_file = f'data/lop{grade}.json'
+        wrong_answers = []
+        
+        try:
+            with open(json_file, 'r', encoding='utf-8') as f:
+                exams_data = json.load(f)
+                exams = exams_data.get('exams', [])
+                exam = next((e for e in exams if e['id'] == exam_id), None)
+                
+                if exam:
+                    questions = exam.get('questions', [])
+                    details = result.get('details', [])
+                    
+                    for detail in details:
+                        if not detail.get('is_correct', True):  # Câu sai
+                            q_id = str(detail.get('question_id'))
+                            question = next((q for q in questions if str(q.get('id')) == q_id), None)
+                            
+                            if question:
+                                wrong_answers.append({
+                                    'question_number': question.get('number', q_id),
+                                    'question_text': question.get('question', ''),
+                                    'user_answer': format_answer(detail.get('user_answer')),
+                                    'correct_answer': format_answer(detail.get('correct_answer')),
+                                    'explanation': question.get('explanation', '')
+                                })
+        except Exception as e:
+            print(f"⚠️ Không thể tải chi tiết câu sai: {e}")
+        
         # ===== TẠO AI ANALYSIS =====
         ai_analysis = None
-        
-        # Chỉ tạo AI analysis nếu đã có điểm
         if result.get('score') is not None:
             try:
                 ai_analysis = generate_ai_analysis(result)
                 print(f"✅ Generated AI analysis for exam {exam_id}")
             except Exception as ai_error:
                 print(f"⚠️ AI analysis failed: {ai_error}")
-                # Không có AI analysis cũng không sao, trang vẫn hiển thị bình thường
         
         return render_template('ketqua.html', 
                              result=result,
                              ai_analysis=ai_analysis,
+                             wrong_answers=wrong_answers,  # ← THÊM DÒNG NÀY
                              username=session.get('username'))
     
     except Exception as e:
@@ -1198,6 +1225,13 @@ def ket_qua_tracnghiem(grade, exam_id):
         traceback.print_exc()
         flash(f'Lỗi khi hiển thị kết quả: {str(e)}', 'danger')
         return redirect(url_for('tracnghiem'))
+
+
+def format_answer(answer):
+    """Format đáp án để hiển thị"""
+    if isinstance(answer, list):
+        return ', '.join(str(a) for a in answer)
+    return str(answer) if answer else '--'
 
 
 def generate_ai_analysis(result):
