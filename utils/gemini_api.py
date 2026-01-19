@@ -34,9 +34,6 @@ def remove_markdown_formatting(text):
 
 
 def chat_with_gemini(user_message):
-    """
-    Gửi tin nhắn đến Gemini AI và nhận phản hồi (không có context)
-    """
     if not GEMINI_API_KEY:
         return "Xin lỗi, dịch vụ AI chưa được cấu hình. Vui lòng liên hệ quản trị viên để bổ sung GEMINI_API_KEY."
     
@@ -48,29 +45,26 @@ def chat_with_gemini(user_message):
                 'top_p': 0.95,
                 'top_k': 40,
                 'max_output_tokens': 2048,
-            },
-            system_instruction="""
-            Bạn là trợ lý AI cho học sinh THCS ôn thi môn Tin học.
-            Nhiệm vụ của bạn là:
-            - Giải đáp thắc mắc về lập trình, thuật toán, cấu trúc dữ liệu
-            - Hướng dẫn học sinh giải bài tập tin học
-            - Giải thích các khái niệm tin học một cách dễ hiểu
-            - Trả lời bằng tiếng Việt, ngắn gọn và rõ ràng
-            
-            QUAN TRỌNG: Trả lời bằng văn bản thuần túy, KHÔNG sử dụng bất kỳ ký tự định dạng nào như:
-            - Dấu # cho tiêu đề
-            - Dấu ** hoặc * cho in đậm/nghiêng
-            - Dấu ``` cho code block
-            - Dấu ` cho inline code
-            Chỉ viết văn bản bình thường, dễ đọc.
-            """
+            }
+            # ← XÓA system_instruction
         )
         
-        response = model.generate_content(user_message)
+        # Nhúng system instruction vào prompt
+        full_prompt = f"""Bạn là trợ lý AI cho học sinh THCS ôn thi môn Tin học.
+Nhiệm vụ của bạn là:
+- Giải đáp thắc mắc về lập trình, thuật toán, cấu trúc dữ liệu
+- Hướng dẫn học sinh giải bài tập tin học
+- Giải thích các khái niệm tin học một cách dễ hiểu
+- Trả lời bằng tiếng Việt, ngắn gọn và rõ ràng
+
+QUAN TRỌNG: Trả lời bằng văn bản thuần túy, KHÔNG sử dụng bất kỳ ký tự định dạng nào như #, **, *, ```.
+
+Câu hỏi: {user_message}
+
+Trả lời:"""
         
-        # Loại bỏ markdown formatting
+        response = model.generate_content(full_prompt)
         clean_text = remove_markdown_formatting(response.text)
-        
         return clean_text
     
     except Exception as e:
@@ -78,24 +72,8 @@ def chat_with_gemini(user_message):
 
 
 def chat_with_context(user_message, chat_history=[]):
-    """
-    Chat với context (lịch sử hội thoại)
-    
-    Args:
-        user_message (str): Tin nhắn mới từ user
-        chat_history (list): Lịch sử chat theo format:
-            [
-                {'role': 'user', 'parts': ['Câu hỏi 1']},
-                {'role': 'model', 'parts': ['Trả lời 1']},
-                {'role': 'user', 'parts': ['Câu hỏi 2']},
-                {'role': 'model', 'parts': ['Trả lời 2']},
-            ]
-    
-    Returns:
-        str: Phản hồi từ AI
-    """
     if not GEMINI_API_KEY:
-        return "Xin lỗi, dịch vụ AI chưa được cấu hình. Vui lòng liên hệ quản trị viên để bổ sung GEMINI_API_KEY."
+        return "Xin lỗi, dịch vụ AI chưa được cấu hình."
     
     try:
         model = genai.GenerativeModel(
@@ -105,17 +83,23 @@ def chat_with_context(user_message, chat_history=[]):
                 'top_p': 0.95,
                 'top_k': 40,
                 'max_output_tokens': 2048,
-            },
-            system_instruction="""
-            Bạn là trợ lý AI cho học sinh THCS ôn thi môn Tin học.
-            Trả lời bằng văn bản thuần túy, KHÔNG sử dụng ký tự định dạng Markdown như #, **, *, ```.
-            Chỉ viết văn bản bình thường, dễ đọc.
-            """
+            }
+            # ← XÓA system_instruction
         )
         
-    
-        # Convert chat_history từ format cũ sang format Gemini
-        gemini_history = []
+        # Thêm system instruction vào đầu history
+        gemini_history = [
+            {
+                'role': 'user',
+                'parts': ['Bạn là trợ lý AI cho học sinh THCS ôn thi môn Tin học. Trả lời bằng văn bản thuần túy, KHÔNG sử dụng ký tự định dạng Markdown.']
+            },
+            {
+                'role': 'model',
+                'parts': ['Được rồi, tôi hiểu. Tôi sẽ trả lời bằng văn bản thuần túy và giúp các em học Tin học.']
+            }
+        ]
+        
+        # Thêm chat history
         for msg in chat_history:
             if msg['role'] == 'user':
                 gemini_history.append({
@@ -128,15 +112,9 @@ def chat_with_context(user_message, chat_history=[]):
                     'parts': [msg.get('content', msg.get('parts', [''])[0])]
                 })
         
-        # Tạo chat session với history
         chat = model.start_chat(history=gemini_history)
-        
-        # Gửi tin nhắn mới
         response = chat.send_message(user_message)
-        
-        # Loại bỏ markdown formatting
         clean_text = remove_markdown_formatting(response.text)
-        
         return clean_text
     
     except Exception as e:
