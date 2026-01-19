@@ -4,7 +4,6 @@
 
 {% block content %}
 <div class="container mt-4">
-    <!-- Header với countdown timer -->
     <div class="row mb-4">
         <div class="col-md-8">
             <h3 class="exam-title">
@@ -29,10 +28,9 @@
     </div>
     {% endif %}
 
-    <!-- Form câu hỏi -->
     <form id="examForm">
         {% for question in exam.questions %}
-        {% set question_type = question.type | default('standard') %}
+        {% set question_type = question.type | default('tl1') %}
         <div class="question-card mb-4" data-question-id="{{ question.id }}" data-question-type="{{ question_type }}">
             <div class="card-body">
                 <h5 class="question-title">
@@ -69,6 +67,23 @@
                     </div>
                     {% endfor %}
                 </div>
+                
+                {% elif question_type == 'essay' %}
+                <div class="essay-hint mt-2 mb-3 text-muted">
+                    <i class="fas fa-edit"></i> Câu tự luận - Nhập câu trả lời của bạn vào ô bên dưới
+                </div>
+                <div class="mt-3">
+                    <textarea 
+                        class="form-control essay-textarea" 
+                        name="question_{{ question.id }}"
+                        id="q{{ question.id }}_essay"
+                        rows="6"
+                        placeholder="Nhập câu trả lời của bạn..."></textarea>
+                    <small class="text-muted mt-1 d-block">
+                        <i class="fas fa-info-circle"></i> Câu này sẽ được giáo viên chấm điểm sau
+                    </small>
+                </div>
+                
                 {% else %}
                 <div class="mt-3">
                     {% for key, value in question.options.items() %}
@@ -88,7 +103,6 @@
         </div>
         {% endfor %}
 
-        <!-- Nút nộp bài -->
         <div class="row mb-5">
             <div class="col-12 text-center">
                 <button type="button" id="submitBtn" class="btn-submit px-5">
@@ -102,10 +116,7 @@
     </form>
 </div>
 
-<!-- Modal đã bỏ -->
-
 <script>
-// ============ BIẾN TOÀN CỤC ============
 let remainingTime = {{ remaining_time }};
 let timerInterval;
 const grade = "{{ grade }}";
@@ -119,19 +130,16 @@ console.log("Remaining Time:", remainingTime, "seconds");
 console.log("Total Questions:", totalQuestions);
 console.log("=================");
 
-// ============ COUNTDOWN TIMER ============
 function startTimer() {
     timerInterval = setInterval(() => {
         remainingTime--;
         updateTimerDisplay();
         
-        // Cảnh báo khi còn 5 phút
         if (remainingTime === 300) {
             document.getElementById('timerAlert').classList.add('timer-warning');
             showNotification('⚠️ Chỉ còn 5 phút!', 'warning');
         }
         
-        // Hết giờ - tự động nộp bài
         if (remainingTime <= 0) {
             clearInterval(timerInterval);
             showNotification('⏰ Hết giờ! Đang tự động nộp bài...', 'danger');
@@ -149,7 +157,6 @@ function updateTimerDisplay() {
         `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 }
 
-// ============ HIỂN THỊ THÔNG BÁO ============
 function showNotification(message, type = 'info') {
     const alertDiv = document.createElement('div');
     alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3`;
@@ -162,12 +169,11 @@ function showNotification(message, type = 'info') {
     setTimeout(() => alertDiv.remove(), 3000);
 }
 
-// ============ THU THẬP ĐÁP ÁN ============
 function collectAnswers() {
     const answersMap = {};
     document.querySelectorAll('.question-card').forEach(card => {
         const questionId = card.dataset.questionId;
-        const questionType = card.dataset.questionType || 'standard';
+        const questionType = card.dataset.questionType || 'tl1';
         if (!questionId) {
             return;
         }
@@ -196,17 +202,26 @@ function collectAnswers() {
                 selected_true: selectedTrue,
                 option_states: optionStates
             };
+        } else if (questionType === 'essay') {
+            const textarea = card.querySelector('textarea');
+            const essayText = textarea ? textarea.value.trim() : '';
+            
+            answersMap[questionId] = {
+                type: 'essay',
+                answered: essayText.length > 0,
+                essay_answer: essayText
+            };
         } else {
             const selected = card.querySelector('input[type="radio"]:checked');
             answersMap[questionId] = {
-                type: 'standard',
+                type: 'tl1',
                 answered: !!selected,
                 selected: selected ? selected.value : ''
             };
         }
     });
 
-    console.log('📦 Answers collected (detailed):', answersMap);
+    console.log('📦 Answers collected:', answersMap);
     return answersMap;
 }
 
@@ -219,6 +234,11 @@ function buildAnswerPayload(answersMap) {
                 selected_true: info.selected_true,
                 option_states: info.option_states
             };
+        } else if (info.type === 'essay') {
+            payload[questionId] = {
+                type: 'essay',
+                essay_answer: info.essay_answer || ''
+            };
         } else {
             payload[questionId] = info.selected || '';
         }
@@ -226,12 +246,10 @@ function buildAnswerPayload(answersMap) {
     return payload;
 }
 
-// ============ ĐẾM SỐ CÂU CHƯA LÀM ============
 function countUnanswered(answersMap) {
     return Object.values(answersMap).filter(info => !info.answered).length;
 }
 
-// ============ NỘP BÀI ============
 async function submitExam(existingAnswersMap = null) {
     const answersMap = existingAnswersMap || collectAnswers();
     const answersPayload = buildAnswerPayload(answersMap);
@@ -241,7 +259,6 @@ async function submitExam(existingAnswersMap = null) {
     console.log('Exam ID:', examId);
     console.log('Answers Payload:', answersPayload);
 
-    // Disable nút nộp
     const submitBtn = document.getElementById('submitBtn');
     const originalText = submitBtn.innerHTML;
     submitBtn.disabled = true;
@@ -276,12 +293,8 @@ async function submitExam(existingAnswersMap = null) {
         console.log('✅ Result:', result);
         
         if (result.success) {
-            // Lưu kết quả vào sessionStorage
             sessionStorage.setItem('examResult', JSON.stringify(result));
-            
             showNotification('✅ Nộp bài thành công!', 'success');
-            
-            // Chuyển trang sau 1 giây
             setTimeout(() => {
                 window.location.href = `/tracnghiem/ket-qua/${grade}/${examId}`;
             }, 1000);
@@ -299,7 +312,6 @@ async function submitExam(existingAnswersMap = null) {
     }
 }
 
-// ============ TỰ ĐỘNG NỘP BÀI KHI HẾT GIỜ ============
 function autoSubmit() {
     clearInterval(timerInterval);
     document.getElementById('submitBtn').disabled = true;
@@ -307,26 +319,20 @@ function autoSubmit() {
     submitExam();
 }
 
-// ============ XỬ LÝ NÚT NỘP BÀI - NỘP LUÔN ============
 document.getElementById('submitBtn').addEventListener('click', function() {
-    console.log('🖱️ Submit button clicked - Nộp bài ngay');
+    console.log('🖱️ Submit button clicked');
 
     const answersMap = collectAnswers();
     const unanswered = countUnanswered(answersMap);
 
     if (unanswered > 0) {
-        // Chỉ cảnh báo nhanh, vẫn nộp
         showNotification(`⚠️ Bạn còn ${unanswered} câu chưa làm`, 'warning');
     }
     
-    // Dừng timer
     clearInterval(timerInterval);
-    
-    // Nộp bài ngay lập tức
     submitExam(answersMap);
 });
 
-// ============ CẢNH BÁO KHI RỜI TRANG ============
 window.addEventListener('beforeunload', function(e) {
     if (remainingTime > 0) {
         e.preventDefault();
@@ -334,16 +340,14 @@ window.addEventListener('beforeunload', function(e) {
     }
 });
 
-// ============ KHỞI ĐỘNG KHI LOAD TRANG ============
 document.addEventListener('DOMContentLoaded', function() {
     console.log("✅ Page loaded, starting timer...");
-    updateTimerDisplay(); // Hiển thị thời gian ban đầu trước
+    updateTimerDisplay();
     startTimer();
 });
 </script>
 
 <style>
-/* ========== COLORS ========== */
 :root {
     --primary-color: #2563eb;
     --primary-hover: #1d4ed8;
@@ -361,7 +365,6 @@ document.addEventListener('DOMContentLoaded', function() {
     --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* ========== EXAM HEADER ========== */
 .exam-title {
     color: var(--primary-color);
     font-weight: 600;
@@ -375,7 +378,6 @@ document.addEventListener('DOMContentLoaded', function() {
     margin-bottom: 0;
 }
 
-/* ========== TIMER BOX ========== */
 .timer-box {
     background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
     border: 2px solid var(--warning-color);
@@ -410,7 +412,6 @@ document.addEventListener('DOMContentLoaded', function() {
     font-size: 0.85rem;
 }
 
-/* ========== QUESTION CARD ========== */
 .question-card {
     background: var(--bg-white);
     border: 1px solid var(--border-color);
@@ -447,7 +448,6 @@ document.addEventListener('DOMContentLoaded', function() {
     display: inline-block;
 }
 
-/* ========== ANSWER OPTIONS ========== */
 .answer-option {
     background: var(--bg-light);
     border: 2px solid var(--border-color);
@@ -491,7 +491,7 @@ document.addEventListener('DOMContentLoaded', function() {
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
-.tl2-hint {
+.tl2-hint, .essay-hint {
     font-size: 0.95rem;
     font-style: italic;
 }
@@ -529,7 +529,28 @@ document.addEventListener('DOMContentLoaded', function() {
     color: var(--text-secondary);
 }
 
-/* ========== BUTTONS ========== */
+.essay-textarea {
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    padding: 1rem;
+    font-size: 1rem;
+    line-height: 1.6;
+    resize: vertical;
+    min-height: 150px;
+    transition: all 0.3s ease;
+}
+
+.essay-textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    outline: none;
+}
+
+.essay-textarea::placeholder {
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
 .btn-submit {
     background: linear-gradient(135deg, var(--success-color) 0%, var(--success-hover) 100%);
     color: white;
@@ -574,7 +595,6 @@ document.addEventListener('DOMContentLoaded', function() {
     transform: translateY(-2px);
 }
 
-/* ========== RESPONSIVE ========== */
 @media (max-width: 768px) {
     .exam-title {
         font-size: 1.5rem;
@@ -593,7 +613,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     .btn-submit, .btn-secondary-custom {
         width: 100%;
-        margin: 0.5rem 0 !important;
+        margin: 0.5rem 0;
+    }
+    
+    .essay-textarea {
+        font-size: 0.95rem;
     }
 }
 </style>

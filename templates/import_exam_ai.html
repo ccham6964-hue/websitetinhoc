@@ -1,0 +1,529 @@
+{% extends "base.html" %}
+
+{% block title %}Tạo đề thi tự động bằng AI - Học Tin THCS{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1> Tạo đề thi tự động bằng AI</h1>
+        <p class="subtitle">Upload file Word, AI sẽ tự động chuyển thành trắc nghiệm</p>
+    </div>
+
+    <div class="info-box">
+        <h3>📝 Hướng dẫn sử dụng:</h3>
+        <ol>
+            <li>Chuẩn bị file Word (.docx) chứa nội dung bài học/đề thi</li>
+            <li>Upload file lên hệ thống</li>
+            <li>AI sẽ tự động tạo câu hỏi trắc nghiệm ABCD và tự luận</li>
+            <li>Kiểm tra và chỉnh sửa trước khi lưu</li>
+        </ol>
+        
+        <div class="alert alert-info">
+            <strong> Lưu ý:</strong>
+            <ul>
+                <li>Hệ thống chỉ tạo câu trắc nghiệm 4 đáp án (A, B, C, D) và câu tự luận</li>
+                <li>Không tạo câu hỏi Đúng/Sai</li>
+                <li>File Word nên có cấu trúc rõ ràng để AI phân tích tốt hơn</li>
+            </ul>
+        </div>
+    </div>
+
+    <form id="importExamForm" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="grade">Khối lớp: <span class="required">*</span></label>
+            <select id="grade" name="grade" required>
+                <option value="">Chọn khối lớp</option>
+                {% for grade in grade_choices %}
+                <option value="{{ grade }}" {% if form_data.grade == grade %}selected{% endif %}>
+                    {{ grade_labels.get(grade, 'Lớp ' ~ grade) }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="title">Tên đề thi: <span class="required">*</span></label>
+            <input type="text" id="title" name="title" 
+                   value="{{ form_data.title }}" 
+                   placeholder="VD: Đề kiểm tra Tin học 15 phút"
+                   required>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Mô tả:</label>
+            <textarea id="description" name="description" rows="3" 
+                      placeholder="Mô tả ngắn về đề thi...">{{ form_data.description }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="time_limit">Thời gian làm bài (phút): <span class="required">*</span></label>
+            <input type="number" id="time_limit" name="time_limit" 
+                   value="{{ form_data.time_limit or '15' }}" 
+                   min="1" max="180" required>
+        </div>
+
+        <div class="form-group">
+            <label for="exam_file">File đề thi (.docx): <span class="required">*</span></label>
+            <div class="file-upload-wrapper">
+                <input type="file" id="exam_file" name="exam_file" 
+                       accept=".docx" required>
+                <small class="form-hint">
+                    📄 Chỉ chấp nhận file .docx (Microsoft Word)
+                </small>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary" id="submitBtn">
+                <span id="btnText"> Tạo đề thi với AI</span>
+                <span id="btnLoading" style="display: none;">
+                     Đang xử lý... (có thể mất 30-60 giây)
+                </span>
+            </button>
+            <a href="{{ url_for('teacher_exams') }}" class="btn btn-secondary">← Hủy</a>
+        </div>
+    </form>
+
+    <!-- Progress indicator -->
+    <div id="progressBox" class="progress-box" style="display: none;">
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+        <p id="progressText">Đang xử lý...</p>
+    </div>
+
+    <!-- Preview section -->
+    <div id="previewSection" class="preview-section" style="display: none;">
+        <h2>📋 Xem trước đề thi</h2>
+        <div id="previewContent"></div>
+        <div class="preview-actions">
+            <button onclick="saveExam()" class="btn btn-success"> Lưu đề thi</button>
+            <button onclick="cancelPreview()" class="btn btn-secondary"> Hủy</button>
+        </div>
+    </div>
+</div>
+
+<style>
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.page-header h1 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #7f8c8d;
+    font-size: 16px;
+}
+
+.info-box {
+    background: #e8f4f8;
+    border-left: 4px solid #3498db;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 8px;
+}
+
+.info-box h3 {
+    margin-top: 0;
+    color: #2980b9;
+}
+
+.info-box ol {
+    margin-left: 20px;
+}
+
+.alert {
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 6px;
+}
+
+.alert-info {
+    background: #d1ecf1;
+    border: 1px solid #bee5eb;
+    color: #0c5460;
+}
+
+.alert ul {
+    margin: 10px 0 0 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.required {
+    color: #e74c3c;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    box-sizing: border-box;
+    transition: border 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+.file-upload-wrapper {
+    position: relative;
+}
+
+.form-hint {
+    display: block;
+    margin-top: 8px;
+    color: #7f8c8d;
+    font-size: 13px;
+}
+
+.form-actions {
+    margin-top: 30px;
+    display: flex;
+    gap: 15px;
+}
+
+.btn {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    flex: 1;
+}
+
+.btn-primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-secondary {
+    background: #95a5a6;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #7f8c8d;
+}
+
+.btn-success {
+    background: #27ae60;
+    color: white;
+}
+
+.btn-success:hover {
+    background: #229954;
+}
+
+.progress-box {
+    margin-top: 30px;
+    padding: 30px;
+    background: #fff;
+    border: 2px solid #3498db;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 30px;
+    background: #ecf0f1;
+    border-radius: 15px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #3498db, #2ecc71);
+    width: 0%;
+    animation: progress 60s linear;
+    border-radius: 15px;
+}
+
+@keyframes progress {
+    0% { width: 0%; }
+    100% { width: 100%; }
+}
+
+#progressText {
+    font-size: 16px;
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.preview-section {
+    margin-top: 40px;
+    padding: 30px;
+    background: #fff;
+    border: 2px solid #27ae60;
+    border-radius: 12px;
+}
+
+.preview-section h2 {
+    color: #27ae60;
+    margin-bottom: 20px;
+}
+
+#previewContent {
+    max-height: 500px;
+    overflow-y: auto;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.question-preview {
+    background: white;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-left: 4px solid #3498db;
+    border-radius: 6px;
+}
+
+.question-preview.essay {
+    border-left-color: #e67e22;
+}
+
+.question-number {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.question-type-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    background: #3498db;
+    color: white;
+    border-radius: 12px;
+    font-size: 12px;
+    margin-left: 10px;
+}
+
+.question-type-badge.essay {
+    background: #e67e22;
+}
+
+.options-list {
+    margin: 10px 0 0 20px;
+}
+
+.option-item {
+    padding: 8px;
+    margin: 5px 0;
+}
+
+.option-item.correct {
+    background: #d5f4e6;
+    border-left: 3px solid #27ae60;
+    font-weight: 600;
+}
+
+.preview-actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+</style>
+
+<script>
+let examData = null;
+
+document.getElementById('importExamForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const submitBtn = document.getElementById('submitBtn');
+    const btnText = document.getElementById('btnText');
+    const btnLoading = document.getElementById('btnLoading');
+    const progressBox = document.getElementById('progressBox');
+    
+    // Validate
+    if (!formData.get('exam_file') || !formData.get('exam_file').name) {
+        alert(' Vui lòng chọn file đề thi!');
+        return;
+    }
+    
+    // Disable button và hiển thị loading
+    submitBtn.disabled = true;
+    btnText.style.display = 'none';
+    btnLoading.style.display = 'inline';
+    progressBox.style.display = 'block';
+    
+    try {
+        const response = await fetch('/teacher/import_exam_ai', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            examData = result.exam_data;
+            showPreview(result.exam_data);
+            progressBox.style.display = 'none';
+        } else {
+            alert(' ' + result.message);
+            submitBtn.disabled = false;
+            btnText.style.display = 'inline';
+            btnLoading.style.display = 'none';
+            progressBox.style.display = 'none';
+        }
+    } catch (error) {
+        alert(' Lỗi: ' + error.message);
+        submitBtn.disabled = false;
+        btnText.style.display = 'inline';
+        btnLoading.style.display = 'none';
+        progressBox.style.display = 'none';
+    }
+});
+
+function showPreview(data) {
+    const previewSection = document.getElementById('previewSection');
+    const previewContent = document.getElementById('previewContent');
+    
+    let html = `
+        <div style="margin-bottom: 20px; padding: 15px; background: #ecf0f1; border-radius: 8px;">
+            <h3>${data.title}</h3>
+            <p>${data.description || 'Không có mô tả'}</p>
+            <p><strong>Tổng số câu:</strong> ${data.questions.length}</p>
+        </div>
+    `;
+    
+    data.questions.forEach((q, idx) => {
+        const isEssay = q.type === 'essay';
+        const typeLabel = isEssay ? 'Tự luận' : 'Trắc nghiệm';
+        const typeClass = isEssay ? 'essay' : 'multiple-choice';
+        
+        html += `
+            <div class="question-preview ${typeClass}">
+                <div>
+                    <span class="question-number">Câu ${q.number}:</span>
+                    <span class="question-type-badge ${typeClass}">${typeLabel}</span>
+                </div>
+                <p style="margin: 10px 0;"><strong>${q.question}</strong></p>
+        `;
+        
+        if (!isEssay && q.options) {
+            html += '<div class="options-list">';
+            for (let [key, value] of Object.entries(q.options)) {
+                const isCorrect = q.correct_answer === key;
+                html += `
+                    <div class="option-item ${isCorrect ? 'correct' : ''}">
+                        <strong>${key}.</strong> ${value}
+                        ${isCorrect ? '' : ''}
+                    </div>
+                `;
+            }
+            html += '</div>';
+        } else if (isEssay && q.correct_answer) {
+            html += `<p style="margin-top: 10px; color: #27ae60;">
+                <strong> Gợi ý:</strong> ${q.correct_answer}
+            </p>`;
+        }
+        
+        if (q.explanation) {
+            html += `<p style="margin-top: 10px; font-style: italic; color: #7f8c8d;">
+                <strong>Giải thích:</strong> ${q.explanation}
+            </p>`;
+        }
+        
+        html += '</div>';
+    });
+    
+    previewContent.innerHTML = html;
+    previewSection.style.display = 'block';
+    
+    // Scroll to preview
+    previewSection.scrollIntoView({ behavior: 'smooth' });
+}
+
+async function saveExam() {
+    if (!examData) {
+        alert(' Không có dữ liệu đề thi');
+        return;
+    }
+    
+    const grade = document.getElementById('grade').value;
+    const title = document.getElementById('title').value;
+    const description = document.getElementById('description').value;
+    const timeLimit = document.getElementById('time_limit').value;
+    
+    const payload = {
+        grade: grade,
+        exam_data: {
+            ...examData,
+            title: title,
+            description: description,
+            time_limit: parseInt(timeLimit)
+        }
+    };
+    
+    try {
+        const response = await fetch('/teacher/save_exam_ai', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(payload)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            alert(' Lưu đề thi thành công!');
+            window.location.href = '/teacher/exams';
+        } else {
+            alert(' ' + result.message);
+        }
+    } catch (error) {
+        alert(' Lỗi: ' + error.message);
+    }
+}
+
+function cancelPreview() {
+    if (confirm('Bạn có chắc muốn hủy? Dữ liệu sẽ không được lưu.')) {
+        location.reload();
+    }
+}
+</script>
+{% endblock %}

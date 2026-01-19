@@ -8,32 +8,32 @@
         <div class="col-12 text-center">
             <h2 class="result-title"><i class="fas fa-chart-bar"></i> Kết Quả Bài Làm</h2>
             <p class="result-subtitle">{{ result.exam_title }}</p>
+            {% if result.subject_name %}
+            <p class="subject-info">
+                <span class="subject-badge">{{ result.subject_name }}</span>
+            </p>
+            {% endif %}
         </div>
     </div>
-
-    {% set total_points = result.total_points if result.total_points is defined else result.correct_count %}
 
     <!-- Thông tin điểm -->
     <div class="row mb-4">
         <div class="col-md-4 mb-3">
             <div class="result-card h-100">
                 <div class="card-body">
-                    <h1 class="score-display 
-                        {% if result.score >= 8 %}text-success
-                        {% elif result.score >= 5 %}text-warning
-                        {% else %}text-danger
-                        {% endif %}">{{ result.score }}</h1>
+                    {% if result.score is not none %}
+                        <h1 class="score-display 
+                            {% if result.score >= 8 %}text-success
+                            {% elif result.score >= 5 %}text-warning
+                            {% else %}text-danger
+                            {% endif %}">{{ result.score }}</h1>
+                    {% else %}
+                        <h1 class="score-display text-info">--</h1>
+                    {% endif %}
                     <h5 class="card-title-text">Điểm số</h5>
-                    <p class="card-subtitle-text">Thang điểm 10</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-3">
-            <div class="result-card h-100">
-                <div class="card-body">
-                    <h1 class="score-display text-primary">{{ total_points|round(2) }}</h1>
-                    <h5 class="card-title-text">Điểm tích lũy</h5>
-                    <p class="card-subtitle-text">Tối đa {{ result.total_questions }} điểm</p>
+                    <p class="card-subtitle-text">
+                        {% if result.score is none %}Chờ giáo viên chấm{% else %}Thang điểm 10{% endif %}
+                    </p>
                 </div>
             </div>
         </div>
@@ -41,7 +41,16 @@
             <div class="result-card h-100">
                 <div class="card-body">
                     <h1 class="score-display text-success">{{ result.correct_count }}</h1>
-                    <h5 class="card-title-text">Câu đạt điểm tối đa</h5>
+                    <h5 class="card-title-text">Câu đúng</h5>
+                    <p class="card-subtitle-text">/ {{ result.total_questions }} câu</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="result-card h-100">
+                <div class="card-body">
+                    <h1 class="score-display text-danger">{{ result.total_questions - result.correct_count }}</h1>
+                    <h5 class="card-title-text">Câu sai</h5>
                     <p class="card-subtitle-text">/ {{ result.total_questions }} câu</p>
                 </div>
             </div>
@@ -54,7 +63,7 @@
             <div class="progress-card">
                 <div class="card-body">
                     <h5 class="progress-title"><i class="fas fa-chart-line"></i> Tỷ lệ đúng</h5>
-                    {% set percentage = (total_points / (result.total_questions if result.total_questions else 1) * 100) | round(1) %}
+                    {% set percentage = (result.correct_count / result.total_questions * 100) | round(1) %}
                     <div class="progress-bar-container">
                         <div class="progress-bar-fill 
                             {% if percentage >= 80 %}bg-success
@@ -69,6 +78,115 @@
             </div>
         </div>
     </div>
+
+    <!-- ⭐⭐⭐ PHẦN PHÂN TÍCH AI - ĐÃ CẢI TIẾN ⭐⭐⭐ -->
+    {% if ai_analysis %}
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="ai-analysis-section">
+                <div class="ai-header">
+                    <h3 class="ai-title">
+                        <i class="fas fa-robot"></i> Phân Tích Chi Tiết Từ AI
+                    </h3>
+                    <p class="ai-subtitle">Trợ lý AI đã phân tích bài làm của bạn và đưa ra những lời khuyên sau:</p>
+                </div>
+
+                <div class="ai-content">
+                    <!-- Đánh giá tổng quan -->
+                    <div class="ai-card assessment-card">
+                        <div class="ai-card-header">
+                            <i class="fas fa-clipboard-check"></i> Đánh Giá Tổng Quan
+                        </div>
+                        <div class="ai-card-body">
+                            <p class="ai-text">{{ ai_analysis.overall_assessment }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Điểm mạnh & Điểm yếu -->
+                    <div class="row mb-3">
+                        <div class="col-md-6 mb-3">
+                            <div class="ai-card strengths-card">
+                                <div class="ai-card-header">
+                                    <i class="fas fa-trophy"></i> Điểm Mạnh
+                                </div>
+                                <div class="ai-card-body">
+                                    <div class="ai-list-content" id="strengthsList"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="ai-card weaknesses-card">
+                                <div class="ai-card-header">
+                                    <i class="fas fa-exclamation-triangle"></i> Điểm Yếu
+                                </div>
+                                <div class="ai-card-body">
+                                    <div class="ai-list-content" id="weaknessesList"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Kế hoạch học tập -->
+                    <div class="ai-card study-plan-card">
+                        <div class="ai-card-header">
+                            <i class="fas fa-graduation-cap"></i> Kế Hoạch Học Tập
+                        </div>
+                        <div class="ai-card-body">
+                            <div class="ai-list-content" id="studyPlanList"></div>
+                        </div>
+                    </div>
+
+                    <!-- Lời động viên -->
+                    <div class="ai-card encouragement-card">
+                        <div class="ai-card-header">
+                            <i class="fas fa-heart"></i> Lời Động Viên
+                        </div>
+                        <div class="ai-card-body">
+                            <p class="ai-text encouragement-text">{{ ai_analysis.encouragement }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ⭐ SCRIPT XỬ LÝ AI ANALYSIS ⭐ -->
+    <script>
+        // Dữ liệu AI analysis
+        const aiAnalysis = {
+            strengths: {{ ai_analysis.strengths | tojson | safe }},
+            weaknesses: {{ ai_analysis.weaknesses | tojson | safe }},
+            study_plan: {{ ai_analysis.study_plan | tojson | safe }}
+        };
+
+        // Hàm format bullet points
+        function formatBulletPoints(text) {
+            if (!text) return '<p class="text-muted">Không có dữ liệu</p>';
+            
+            // Tách theo \n hoặc <br>
+            const lines = text.split(/\n|<br>/g).filter(line => line.trim());
+            
+            let html = '<ul class="ai-bullet-list">';
+            lines.forEach(line => {
+                line = line.trim();
+                if (line) {
+                    // Loại bỏ emoji/số ở đầu nếu có (để thêm lại sau)
+                    const cleanLine = line.replace(/^[•\-\*✅⚠️❌🔥💡📚🎯\d️⃣\.\)]+\s*/, '');
+                    html += `<li>${cleanLine}</li>`;
+                }
+            });
+            html += '</ul>';
+            
+            return html;
+        }
+
+        // Render vào DOM
+        document.getElementById('strengthsList').innerHTML = formatBulletPoints(aiAnalysis.strengths);
+        document.getElementById('weaknessesList').innerHTML = formatBulletPoints(aiAnalysis.weaknesses);
+        document.getElementById('studyPlanList').innerHTML = formatBulletPoints(aiAnalysis.study_plan);
+    </script>
+    {% endif %}
+    <!-- ⭐⭐⭐ KẾT THÚC PHẦN PHÂN TÍCH AI ⭐⭐⭐ -->
 
     <!-- Chi tiết câu sai -->
     <div class="row mb-4" id="wrongAnswersSection">
@@ -93,15 +211,20 @@
         <div class="col-12">
             <div class="feedback-card">
                 <div class="card-body text-center">
-                    {% if result.score >= 8 %}
-                        <h4 class="feedback-title text-success"><i class="fas fa-trophy"></i> Xuất sắc!</h4>
-                        <p class="feedback-text">Bạn đã làm bài rất tốt. Hãy tiếp tục phát huy!</p>
-                    {% elif result.score >= 5 %}
-                        <h4 class="feedback-title text-warning"><i class="fas fa-star"></i> Khá tốt!</h4>
-                        <p class="feedback-text">Bạn đã nắm được phần lớn kiến thức. Hãy ôn tập thêm để đạt điểm cao hơn!</p>
+                    {% if result.score is not none %}
+                        {% if result.score >= 8 %}
+                            <h4 class="feedback-title text-success"><i class="fas fa-trophy"></i> Xuất sắc!</h4>
+                            <p class="feedback-text">Bạn đã làm bài rất tốt. Hãy tiếp tục phát huy!</p>
+                        {% elif result.score >= 5 %}
+                            <h4 class="feedback-title text-warning"><i class="fas fa-star"></i> Khá tốt!</h4>
+                            <p class="feedback-text">Bạn đã nắm được phần lớn kiến thức. Hãy ôn tập thêm để đạt điểm cao hơn!</p>
+                        {% else %}
+                            <h4 class="feedback-title text-danger"><i class="fas fa-book"></i> Cần cố gắng thêm!</h4>
+                            <p class="feedback-text">Hãy ôn tập kỹ hơn và thử lại nhé!</p>
+                        {% endif %}
                     {% else %}
-                        <h4 class="feedback-title text-danger"><i class="fas fa-book"></i> Cần cố gắng thêm!</h4>
-                        <p class="feedback-text">Hãy ôn tập kỹ hơn và thử lại nhé!</p>
+                        <h4 class="feedback-title text-info"><i class="fas fa-hourglass-half"></i> Chờ chấm điểm</h4>
+                        <p class="feedback-text">Bài thi có câu tự luận. Giáo viên sẽ chấm và công bố điểm sớm nhất!</p>
                     {% endif %}
                     <p class="feedback-time">
                         <i class="fas fa-calendar-alt"></i> Thời gian nộp bài: {{ result.submitted_at }}
@@ -134,7 +257,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const spinner = document.getElementById('loadingSpinner');
     const wrongCountBadge = document.getElementById('wrongCountBadge');
     const toggleHeader = document.getElementById('toggleWrongAnswers');
-    let collapsed = false;
 
     const sessionResult = sessionStorage.getItem('examResult');
 
@@ -166,76 +288,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let html = '';
         wrongAnswers.forEach(item => {
-            if (item.question_type === 'tl2') {
-                const expectedSet = new Set(item.expected_true || []);
-                const optionStates = item.option_states || {};
-                const options = item.options || {};
-                let optionHtml = '';
-
-                Object.entries(options).forEach(([key, text]) => {
-                    const expectedStatus = expectedSet.has(key) ? 'Đúng' : 'Sai';
-                    const upperKey = key ? key.toString().toUpperCase() : '';
-                    const lowerKey = key ? key.toString().toLowerCase() : '';
-                    const rawState = optionStates[key] ?? optionStates[upperKey] ?? optionStates[lowerKey];
-                    let studentStatus;
-                    if (rawState === 'true') {
-                        studentStatus = 'Đúng';
-                    } else if (rawState === 'false') {
-                        studentStatus = 'Sai';
-                    } else {
-                        studentStatus = 'Chưa chọn';
-                    }
-                    let badgeClass;
-                    if (studentStatus === expectedStatus) {
-                        badgeClass = 'tl2-tag-correct';
-                    } else if (studentStatus === 'Chưa chọn') {
-                        badgeClass = 'tl2-tag-neutral';
-                    } else {
-                        badgeClass = 'tl2-tag-wrong';
-                    }
-                    optionHtml += `
-                        <div class="tl2-review-row">
-                            <div class="tl2-review-statement"><strong>${key}.</strong> ${text}</div>
-                            <div class="tl2-review-tags">
-                                <span class="tl2-tag tl2-tag-expected">Đáp án: ${expectedStatus}</span>
-                                <span class="tl2-tag ${badgeClass}">
-                                    Bạn chọn: ${studentStatus}
-                                </span>
-                            </div>
-                        </div>`;
-                });
-
-                html += `
-                    <div class="wrong-item">
-                        <h6 class="wrong-question"><strong>Câu ${item.question_number} (TL2):</strong> ${item.question_text}</h6>
-                        <hr class="divider">
-                        <div class="tl2-review">
-                            ${optionHtml}
-                        </div>
-                        ${item.missing_choices && item.missing_choices.length ? `<div class="tl2-missing-note text-danger mt-2"><i class="fas fa-exclamation-triangle"></i> Bạn chưa lựa chọn cho các ý: ${item.missing_choices.join(', ')}</div>` : ''}
-                        <div class="tl2-mistake-note text-muted mt-2">
-                            <i class="fas fa-exclamation-circle"></i> Số ý sai: ${item.mistakes}
-                        </div>
-                        ${item.explanation ? `<hr class="divider"><p class="explanation-text">
-                            <i class="fas fa-lightbulb"></i> 
-                            <strong>Giải thích:</strong> ${item.explanation}</p>` : ''}
-                    </div>`;
-            } else {
-                html += `
-                    <div class="wrong-item">
-                        <h6 class="wrong-question"><strong>Câu ${item.question_number}:</strong> ${item.question_text}</h6>
-                        <hr class="divider">
-                        <p class="answer-line"><i class="fas fa-times text-danger"></i> 
-                            <strong>Đáp án của bạn:</strong> 
-                            <span class="answer-badge wrong-answer">${item.user_answer || 'Không trả lời'}</span></p>
-                        <p class="answer-line"><i class="fas fa-check text-success"></i> 
-                            <strong>Đáp án đúng:</strong> 
-                            <span class="answer-badge correct-answer">${item.correct_answer}</span></p>
-                        ${item.explanation ? `<hr class="divider"><p class="explanation-text">
-                            <i class="fas fa-lightbulb"></i> 
-                            <strong>Giải thích:</strong> ${item.explanation}</p>` : ''}
-                    </div>`;
-            }
+            html += `
+                <div class="wrong-item">
+                    <h6 class="wrong-question"><strong>Câu ${item.question_number}:</strong> ${item.question_text}</h6>
+                    <hr class="divider">
+                    <p class="answer-line"><i class="fas fa-times text-danger"></i> 
+                        <strong>Đáp án của bạn:</strong> 
+                        <span class="answer-badge wrong-answer">${item.user_answer}</span></p>
+                    <p class="answer-line"><i class="fas fa-check text-success"></i> 
+                        <strong>Đáp án đúng:</strong> 
+                        <span class="answer-badge correct-answer">${item.correct_answer}</span></p>
+                    ${item.explanation ? `<hr class="divider"><p class="explanation-text">
+                        <i class="fas fa-lightbulb"></i> 
+                        <strong>Giải thích:</strong> ${item.explanation}</p>` : ''}
+                </div>`;
         });
         wrongAnswersList.innerHTML = html;
     }
@@ -249,33 +315,19 @@ document.addEventListener('DOMContentLoaded', function() {
         wrongCountBadge.textContent = "0";
     }
 
-    // 👉 Toggle mở/đóng danh sách chi tiết câu sai
     toggleHeader.addEventListener('click', function() {
-        if (!collapsed) {
-            wrongAnswersList.classList.remove('collapsing');
-            requestAnimationFrame(() => {
-                wrongAnswersList.classList.add('collapsing');
-                wrongAnswersList.classList.add('collapsed');
-            });
-        } else {
-            wrongAnswersList.classList.remove('collapsed');
-            wrongAnswersList.classList.remove('collapsing');
-        }
-        collapsed = !collapsed;
+        wrongAnswersList.classList.toggle('show');
     });
 });
 
-// 🗑️ Xóa sessionStorage khi rời trang
 document.querySelectorAll('.nav-link-btn').forEach(link => {
     link.addEventListener('click', () => {
         sessionStorage.removeItem('examResult');
-        console.log('🗑️ Cleared sessionStorage khi rời trang');
     });
 });
 </script>
 
 <style>
-/* ========== COLORS ========== */
 :root {
     --primary-color: #2563eb;
     --success-color: #10b981;
@@ -290,7 +342,6 @@ document.querySelectorAll('.nav-link-btn').forEach(link => {
     --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* ========== PAGE HEADER ========== */
 .result-title {
     color: var(--primary-color);
     font-weight: 700;
@@ -302,9 +353,18 @@ document.querySelectorAll('.nav-link-btn').forEach(link => {
     color: var(--text-secondary);
     font-size: 1.15rem;
     font-weight: 500;
+    margin-bottom: 0.5rem;
 }
 
-/* ========== RESULT CARDS ========== */
+.subject-badge {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    color: white;
+    padding: 0.4rem 1rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
 .result-card {
     background: var(--bg-white);
     border: 1px solid var(--border-color);
@@ -319,10 +379,6 @@ document.querySelectorAll('.nav-link-btn').forEach(link => {
     box-shadow: var(--shadow-md);
 }
 
-.result-card .card-body {
-    padding: 2rem 1.5rem;
-}
-
 .score-display {
     font-weight: 700;
     font-size: 3.5rem;
@@ -333,32 +389,13 @@ document.querySelectorAll('.nav-link-btn').forEach(link => {
     color: var(--text-primary);
     font-weight: 600;
     font-size: 1.2rem;
-    margin-bottom: 0.5rem;
 }
 
-.card-subtitle-text {
-    color: var(--text-secondary);
-    font-size: 0.95rem;
-    margin-bottom: 0;
-}
-
-/* ========== PROGRESS CARD ========== */
 .progress-card {
     background: var(--bg-white);
     border: 1px solid var(--border-color);
     border-radius: 12px;
     box-shadow: var(--shadow-sm);
-}
-
-.progress-card .card-body {
-    padding: 1.75rem;
-}
-
-.progress-title {
-    color: var(--text-primary);
-    font-weight: 600;
-    font-size: 1.1rem;
-    margin-bottom: 1.25rem;
 }
 
 .progress-bar-container {
@@ -375,23 +412,163 @@ document.querySelectorAll('.nav-link-btn').forEach(link => {
     align-items: center;
     justify-content: center;
     transition: width 1s ease;
-    font-size: 1rem;
     color: white;
 }
 
-.progress-bar-fill.bg-success {
-    background: linear-gradient(135deg, var(--success-color) 0%, #059669 100%);
+/* ========== AI ANALYSIS STYLES - ĐÃ CẢI TIẾN ========== */
+.ai-analysis-section {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border: 2px solid #0ea5e9;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 8px 16px rgba(14, 165, 233, 0.15);
 }
 
-.progress-bar-fill.bg-warning {
-    background: linear-gradient(135deg, var(--warning-color) 0%, #d97706 100%);
+.ai-header {
+    text-align: center;
+    margin-bottom: 2rem;
 }
 
-.progress-bar-fill.bg-danger {
-    background: linear-gradient(135deg, var(--danger-color) 0%, #dc2626 100%);
+.ai-title {
+    color: #0284c7;
+    font-weight: 700;
+    font-size: 1.75rem;
+    margin-bottom: 0.75rem;
 }
 
-/* ========== WRONG ANSWERS CARD ========== */
+.ai-subtitle {
+    color: #475569;
+    font-size: 1.05rem;
+}
+
+.ai-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.ai-card {
+    background: var(--bg-white);
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.ai-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.ai-card-header {
+    padding: 1rem 1.5rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.assessment-card .ai-card-header {
+    background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+}
+
+.strengths-card .ai-card-header {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.weaknesses-card .ai-card-header {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+.study-plan-card .ai-card-header {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+}
+
+.encouragement-card .ai-card-header {
+    background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+}
+
+.ai-card-body {
+    padding: 1.5rem;
+}
+
+.ai-text {
+    color: var(--text-primary);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin-bottom: 0;
+}
+
+/* ⭐ BULLET LIST STYLE - MỚI ⭐ */
+.ai-list-content {
+    color: var(--text-primary);
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+.ai-bullet-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.ai-bullet-list li {
+    padding: 0.75rem 0;
+    padding-left: 2rem;
+    position: relative;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.ai-bullet-list li:last-child {
+    border-bottom: none;
+}
+
+.ai-bullet-list li:before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    top: 0.75rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.85rem;
+}
+
+.weaknesses-card .ai-bullet-list li:before {
+    content: "!";
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+.study-plan-card .ai-bullet-list li {
+    counter-increment: step-counter;
+}
+
+.study-plan-card .ai-bullet-list li:before {
+    content: counter(step-counter);
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+}
+
+.study-plan-card .ai-bullet-list {
+    counter-reset: step-counter;
+}
+
+.encouragement-text {
+    font-size: 1.15rem;
+    font-weight: 500;
+    text-align: center;
+    color: #be185d;
+}
+
+/* ========== WRONG ANSWERS ========== */
 .wrong-answers-card {
     background: var(--bg-white);
     border: 1px solid var(--border-color);
@@ -405,20 +582,14 @@ document.querySelectorAll('.nav-link-btn').forEach(link => {
     padding: 1.25rem 1.5rem;
     display: flex;
     justify-content: space-between;
-    align-items: center;
     cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.wrong-header:hover {
-    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
 }
 
 .wrong-title {
     color: white;
     font-weight: 600;
     font-size: 1.15rem;
-    margin-bottom: 0;
+    margin: 0;
 }
 
 .wrong-badge {
@@ -427,49 +598,20 @@ document.querySelectorAll('.nav-link-btn').forEach(link => {
     padding: 0.4rem 0.85rem;
     border-radius: 8px;
     font-weight: 700;
-    font-size: 1rem;
-}
-
-@keyframes expandHeight {
-    from {
-        max-height: 0;
-        opacity: 0;
-    }
-    to {
-        max-height: 9999px;
-        opacity: 1;
-    }
-}
-
-@keyframes collapseHeight {
-    from {
-        max-height: 9999px;
-        opacity: 1;
-    }
-    to {
-        max-height: 0;
-        opacity: 0;
-    }
 }
 
 #wrongAnswersList {
-    max-height: none;
-    overflow: visible;
-    padding: 1.5rem;
-    animation: expandHeight 0.5s ease forwards;
-}
-
-#wrongAnswersList.collapsing {
-    animation: collapseHeight 0.5s ease forwards;
-}
-
-#wrongAnswersList.collapsed {
     max-height: 0;
     overflow: hidden;
+    transition: max-height 0.5s ease;
     padding: 0;
 }
 
-/* ========== WRONG ITEM ========== */
+#wrongAnswersList.show {
+    max-height: 3000px;
+    padding: 1.5rem;
+}
+
 .wrong-item {
     background: var(--bg-light);
     border: 1px solid var(--border-color);
@@ -478,169 +620,23 @@ document.querySelectorAll('.nav-link-btn').forEach(link => {
     margin-bottom: 1rem;
 }
 
-.wrong-item:last-child {
-    margin-bottom: 0;
-}
-
-.wrong-question {
-    color: var(--text-primary);
-    font-size: 1.05rem;
-    margin-bottom: 0.75rem;
-}
-
-.divider {
-    margin: 0.75rem 0;
-    border-color: var(--border-color);
-}
-
-.answer-line {
-    margin-bottom: 0.5rem;
-    color: var(--text-primary);
-}
-
 .answer-badge {
     padding: 0.35rem 0.75rem;
     border-radius: 6px;
     font-weight: 600;
-    font-size: 0.95rem;
 }
 
 .wrong-answer {
-    background: linear-gradient(135deg, var(--danger-color) 0%, #dc2626 100%);
+    background: var(--danger-color);
     color: white;
 }
 
 .correct-answer {
-    background: linear-gradient(135deg, var(--success-color) 0%, #059669 100%);
+    background: var(--success-color);
     color: white;
 }
 
-.tl2-review {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-}
-
-.tl2-review-row {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-    padding: 0.75rem 0.85rem;
-    background: var(--bg-white);
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
-}
-
-.tl2-review-tags {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-}
-
-.tl2-tag {
-    display: inline-block;
-    padding: 0.25rem 0.6rem;
-    border-radius: 9999px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    border: 1px solid transparent;
-}
-
-.tl2-tag-expected {
-    background: rgba(37, 99, 235, 0.1);
-    color: var(--primary-color);
-    border-color: rgba(37, 99, 235, 0.2);
-}
-
-.tl2-tag-correct {
-    background: rgba(16, 185, 129, 0.1);
-    color: var(--success-color);
-    border-color: rgba(16, 185, 129, 0.2);
-}
-
-.tl2-tag-wrong {
-    background: rgba(239, 68, 68, 0.1);
-    color: var(--danger-color);
-    border-color: rgba(239, 68, 68, 0.2);
-}
-
-.tl2-tag-neutral {
-    background: rgba(148, 163, 184, 0.15);
-    color: #475569;
-    border-color: rgba(148, 163, 184, 0.2);
-}
-
-.tl2-mistake-note {
-    font-size: 0.95rem;
-}
-
-.tl2-missing-note {
-    font-size: 0.9rem;
-}
-
-.explanation-text {
-    color: var(--text-secondary);
-    font-style: italic;
-    margin-bottom: 0;
-}
-
-/* ========== ALERT CUSTOM ========== */
-.alert-success-custom {
-    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-    border: 2px solid var(--success-color);
-    border-radius: 10px;
-    padding: 2rem;
-    text-align: center;
-    color: #065f46;
-}
-
-.success-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    display: block;
-}
-
-.alert-info-custom {
-    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-    border: 2px solid var(--primary-color);
-    border-radius: 10px;
-    padding: 1.5rem;
-    text-align: center;
-    color: var(--primary-color);
-    font-weight: 600;
-}
-
-/* ========== FEEDBACK CARD ========== */
-.feedback-card {
-    background: var(--bg-white);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    box-shadow: var(--shadow-sm);
-}
-
-.feedback-card .card-body {
-    padding: 2rem;
-}
-
-.feedback-title {
-    font-weight: 700;
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-}
-
-.feedback-text {
-    color: var(--text-primary);
-    font-size: 1.05rem;
-    margin-bottom: 1.5rem;
-}
-
-.feedback-time {
-    color: var(--text-secondary);
-    font-size: 0.95rem;
-    margin-bottom: 0;
-}
-
-/* ========== ACTION BUTTONS ========== */
+/* ========== BUTTONS ========== */
 .btn-action {
     border: none;
     border-radius: 10px;
@@ -658,20 +654,8 @@ document.querySelectorAll('.nav-link-btn').forEach(link => {
     color: white;
 }
 
-.btn-warning-custom:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-    color: white;
-}
-
 .btn-primary-custom {
     background: linear-gradient(135deg, var(--primary-color) 0%, #1d4ed8 100%);
-    color: white;
-}
-
-.btn-primary-custom:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
     color: white;
 }
 
@@ -681,26 +665,25 @@ document.querySelectorAll('.nav-link-btn').forEach(link => {
     border: 2px solid var(--border-color);
 }
 
-.btn-secondary-custom:hover {
-    background: var(--bg-light);
-    color: var(--text-primary);
-    border-color: var(--text-secondary);
+.btn-action:hover {
     transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    color: white;
 }
 
-/* ========== RESPONSIVE ========== */
 @media (max-width: 768px) {
-    .result-title {
-        font-size: 1.6rem;
-    }
-    
-    .score-display {
-        font-size: 2.5rem;
+    .ai-title {
+        font-size: 1.5rem;
     }
     
     .btn-action {
         width: 100%;
         margin: 0.5rem 0;
+    }
+    
+    .ai-bullet-list li {
+        padding-left: 2.5rem;
+        font-size: 0.95rem;
     }
 }
 </style>

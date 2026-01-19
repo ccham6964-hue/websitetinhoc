@@ -29,8 +29,13 @@
             <div class="col-md-3 mb-3">
                 <div class="stat-card">
                     <div class="card-body">
-                        {% set avg_score = (results | sum(attribute='score')) / (results | length) %}
-                        <h3 class="stat-number text-success">{{ "%.2f" | format(avg_score) }}</h3>
+                        {% set scored_results = results | selectattr('score', 'ne', none) | list %}
+                        {% if scored_results | length > 0 %}
+                            {% set avg_score = (scored_results | sum(attribute='score')) / (scored_results | length) %}
+                            <h3 class="stat-number text-success">{{ "%.2f" | format(avg_score) }}</h3>
+                        {% else %}
+                            <h3 class="stat-number text-success">--</h3>
+                        {% endif %}
                         <p class="stat-label">Điểm trung bình</p>
                     </div>
                 </div>
@@ -39,8 +44,13 @@
             <div class="col-md-3 mb-3">
                 <div class="stat-card">
                     <div class="card-body">
-                        {% set max_score = results | map(attribute='score') | max %}
-                        <h3 class="stat-number text-warning">{{ max_score }}</h3>
+                        {% set scored_results = results | selectattr('score', 'ne', none) | list %}
+                        {% if scored_results | length > 0 %}
+                            {% set max_score = scored_results | map(attribute='score') | max %}
+                            <h3 class="stat-number text-warning">{{ max_score }}</h3>
+                        {% else %}
+                            <h3 class="stat-number text-warning">--</h3>
+                        {% endif %}
                         <p class="stat-label">Điểm cao nhất</p>
                     </div>
                 </div>
@@ -49,8 +59,13 @@
             <div class="col-md-3 mb-3">
                 <div class="stat-card">
                     <div class="card-body">
-                        {% set min_score = results | map(attribute='score') | min %}
-                        <h3 class="stat-number text-danger">{{ min_score }}</h3>
+                        {% set scored_results = results | selectattr('score', 'ne', none) | list %}
+                        {% if scored_results | length > 0 %}
+                            {% set min_score = scored_results | map(attribute='score') | min %}
+                            <h3 class="stat-number text-danger">{{ min_score }}</h3>
+                        {% else %}
+                            <h3 class="stat-number text-danger">--</h3>
+                        {% endif %}
                         <p class="stat-label">Điểm thấp nhất</p>
                     </div>
                 </div>
@@ -88,16 +103,22 @@
                                             <strong class="exam-title-text">{{ result.exam_title }}</strong>
                                         </td>
                                         <td>
-                                            <span class="grade-badge">Lớp {{ result.grade }}</span>
+                                            <span class="grade-badge">
+                                                <i class="fas fa-graduation-cap"></i> Lớp {{ result.grade }}
+                                            </span>
                                         </td>
                                         <td>
-                                            <span class="score-badge 
-                                                {% if result.score >= 8 %}score-excellent
-                                                {% elif result.score >= 5 %}score-good
-                                                {% else %}score-poor
-                                                {% endif %}">
-                                                {{ result.score }}
-                                            </span>
+                                            {% if result.score is not none %}
+                                                <span class="score-badge 
+                                                    {% if result.score >= 8 %}score-excellent
+                                                    {% elif result.score >= 5 %}score-good
+                                                    {% else %}score-poor
+                                                    {% endif %}">
+                                                    {{ result.score }}
+                                                </span>
+                                            {% else %}
+                                                <span class="score-badge score-pending">--</span>
+                                            {% endif %}
                                         </td>
                                         <td>
                                             {{ result.correct_count }}/{{ result.total_questions }}
@@ -109,8 +130,13 @@
                                             </small>
                                         </td>
                                         <td>
+                                            <a href="{{ url_for('ket_qua_tracnghiem', grade=result.grade, exam_id=result.exam_id) }}" 
+                                               class="action-btn me-2" 
+                                               title="Xem kết quả">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
                                             <a href="{{ url_for('lam_bai_tracnghiem', grade=result.grade, exam_id=result.exam_id) }}" 
-                                               class="action-btn" 
+                                               class="action-btn action-btn-secondary" 
                                                title="Làm lại">
                                                 <i class="fas fa-redo"></i>
                                             </a>
@@ -125,8 +151,9 @@
             </div>
         </div>
 
-        <!-- Biểu đồ điểm số (nếu có nhiều bài) -->
-        {% if results|length >= 3 %}
+        <!-- Biểu đồ điểm số -->
+        {% set scored_results = results | selectattr('score', 'ne', none) | list %}
+        {% if scored_results|length >= 3 %}
         <div class="row mt-4">
             <div class="col-12">
                 <div class="chart-card">
@@ -169,14 +196,14 @@
     </div>
 </div>
 
-{% if results|length >= 3 %}
+{% set scored_results = results | selectattr('score', 'ne', none) | list %}
+{% if scored_results|length >= 3 %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const ctx = document.getElementById('progressChart').getContext('2d');
     
-    // Dữ liệu từ Flask (lấy 10 bài gần nhất)
-    const results = {{ results[:10] | tojson }};
+    const results = {{ scored_results[:10] | tojson }};
     const labels = results.map((r, i) => `Bài ${results.length - i}`);
     const scores = results.map(r => r.score);
     
@@ -221,12 +248,12 @@ document.addEventListener('DOMContentLoaded', () => {
 {% endif %}
 
 <style>
-/* ========== COLORS ========== */
 :root {
     --primary-color: #2563eb;
     --success-color: #10b981;
     --warning-color: #f59e0b;
     --danger-color: #ef4444;
+    --info-color: #0ea5e9;
     --text-primary: #1f2937;
     --text-secondary: #6b7280;
     --border-color: #e5e7eb;
@@ -236,7 +263,6 @@ document.addEventListener('DOMContentLoaded', () => {
     --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* ========== PAGE HEADER ========== */
 .page-title {
     color: var(--primary-color);
     font-weight: 700;
@@ -249,7 +275,6 @@ document.addEventListener('DOMContentLoaded', () => {
     font-size: 1.05rem;
 }
 
-/* ========== STAT CARDS ========== */
 .stat-card {
     background: var(--bg-white);
     border: 1px solid var(--border-color);
@@ -280,7 +305,6 @@ document.addEventListener('DOMContentLoaded', () => {
     margin-bottom: 0;
 }
 
-/* ========== TABLE CARD ========== */
 .table-card {
     background: var(--bg-white);
     border: 1px solid var(--border-color);
@@ -301,7 +325,6 @@ document.addEventListener('DOMContentLoaded', () => {
     margin-bottom: 0;
 }
 
-/* ========== CUSTOM TABLE ========== */
 .custom-table {
     font-size: 0.95rem;
 }
@@ -324,7 +347,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 .custom-table tbody tr:hover {
     background: var(--bg-light);
-    transform: scale(1.01);
+    transform: scale(1.005);
 }
 
 .custom-table tbody td {
@@ -337,15 +360,15 @@ document.addEventListener('DOMContentLoaded', () => {
     font-weight: 600;
 }
 
-/* ========== BADGES ========== */
 .grade-badge {
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
     color: white;
     padding: 0.4rem 0.8rem;
     border-radius: 6px;
     font-size: 0.875rem;
     font-weight: 600;
     display: inline-block;
+    white-space: nowrap;
 }
 
 .score-badge {
@@ -371,12 +394,16 @@ document.addEventListener('DOMContentLoaded', () => {
     color: white;
 }
 
+.score-pending {
+    background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+    color: white;
+}
+
 .time-text {
     color: var(--text-secondary);
     font-size: 0.875rem;
 }
 
-/* ========== ACTION BUTTON ========== */
 .action-btn {
     background: var(--primary-color);
     color: white;
@@ -395,7 +422,14 @@ document.addEventListener('DOMContentLoaded', () => {
     transform: scale(1.1);
 }
 
-/* ========== CHART CARD ========== */
+.action-btn-secondary {
+    background: var(--warning-color);
+}
+
+.action-btn-secondary:hover {
+    background: #d97706;
+}
+
 .chart-card {
     background: var(--bg-white);
     border: 1px solid var(--border-color);
@@ -417,7 +451,6 @@ document.addEventListener('DOMContentLoaded', () => {
     margin-bottom: 0;
 }
 
-/* ========== EMPTY STATE ========== */
 .empty-history {
     background: var(--bg-white);
     border: 2px dashed var(--border-color);
@@ -463,7 +496,6 @@ document.addEventListener('DOMContentLoaded', () => {
     color: white;
 }
 
-/* ========== BACK BUTTON ========== */
 .back-btn {
     background: var(--bg-white);
     color: var(--primary-color);
@@ -484,7 +516,6 @@ document.addEventListener('DOMContentLoaded', () => {
     box-shadow: var(--shadow-md);
 }
 
-/* ========== RESPONSIVE ========== */
 @media (max-width: 768px) {
     .page-title {
         font-size: 1.6rem;
@@ -496,6 +527,11 @@ document.addEventListener('DOMContentLoaded', () => {
     
     .table-responsive {
         font-size: 0.85rem;
+    }
+    
+    .action-btn {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.8rem;
     }
 }
 </style>

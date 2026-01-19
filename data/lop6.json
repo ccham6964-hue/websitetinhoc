@@ -1,0 +1,315 @@
+{
+  "exams": [
+    {
+      "id": "exam_6_f22278",
+      "title": "test",
+      "description": "test",
+      "time_limit": 20,
+      "questions": [
+        {
+          "correct_answer": "B",
+          "explanation": "",
+          "id": 1,
+          "number": 1,
+          "options": {
+            "A": "Paint",
+            "B": "Microsoft Word",
+            "C": "Excel",
+            "D": "PowerPoint"
+          },
+          "question": "Phần mềm nào sau đây là phần mềm soạn thảo văn bản?",
+          "type": "tl1"
+        },
+        {
+          "correct_answer": "B",
+          "explanation": "",
+          "id": 2,
+          "number": 2,
+          "options": {
+            "A": "Ctrl + O",
+            "B": "Ctrl + S",
+            "C": "Ctrl + N",
+            "D": "Ctrl + P"
+          },
+          "question": "Để lưu văn bản trong Word, ta sử dụng tổ hợp phím nào?",
+          "type": "tl1"
+        },
+        {
+          "correct_answer": "B",
+          "explanation": "",
+          "id": 3,
+          "number": 3,
+          "options": {
+            "A": "Xuống dòng trong cùng đoạn",
+            "B": "Kết thúc đoạn văn",
+            "C": "Giãn dòng",
+            "D": "Thụt đầu dòng"
+          },
+          "question": "Trong Word, phím Enter dùng để:",
+          "type": "tl1"
+        },
+        {
+          "correct_answer": "C",
+          "explanation": "",
+          "id": 4,
+          "number": 4,
+          "options": {
+            "A": "Word",
+            "B": "PowerPoint",
+            "C": "Excel",
+            "D": "Access"
+          },
+          "question": "Phần mềm bảng tính thường dùng là:",
+          "type": "tl1"
+        },
+        {
+          "correct_answer": "B",
+          "explanation": "",
+          "id": 5,
+          "number": 5,
+          "options": {
+            "A": "Bảng",
+            "B": "Ô",
+            "C": "Trang tính",
+            "D": "Tệp"
+          },
+          "question": "Trong Excel, giao điểm của hàng và cột gọi là:",
+          "type": "tl1"
+        },
+        {
+          "correct_answer": "C",
+          "explanation": "",
+          "id": 6,
+          "number": 6,
+          "options": {
+            "A": "+",
+            "B": "–",
+            "C": "=",
+            "D": "*"
+          },
+          "question": "Công thức trong Excel phải bắt đầu bằng ký tự nào?",
+          "type": "tl1"
+        },
+        {
+          "correct_answer": "D",
+          "explanation": "",
+          "id": 7,
+          "number": 7,
+          "options": {
+            "A": "AVERAGE",
+            "B": "MAX",
+            "C": "MIN",
+            "D": "SUM"
+          },
+          "question": "Hàm dùng để tính tổng trong Excel là:",
+          "type": "tl1"
+        },
+        {
+          "correct_answer": "C",
+          "explanation": "",
+          "id": 8,
+          "number": 8,
+          "options": {
+            "A": "Một phần mềm",
+            "B": "Một máy tính",
+            "C": "Mạng máy tính toàn cầu",
+            "D": "Một hệ điều hành"
+          },
+          "question": "Internet là gì?",
+          "type": "tl1"
+        },
+        {
+          "correct_answer": "B",
+          "explanation": "",
+          "id": 9,
+          "number": 9,
+          "options": {
+            "A": "WWW",
+            "B": "Email",
+            "C": "FTP",
+            "D": "Chat"
+          },
+          "question": "Dịch vụ dùng để gửi thư điện tử là:",
+          "type": "tl1"
+        },
+        {
+          "correct_answer": "A",
+          "explanation": "",
+          "id": 10,
+          "number": 10,
+          "options": {
+            "A": "http:// hoặc https://",
+            "B": "ftp://",
+            "C": "mail://",
+            "D": "file://"
+          },
+          "question": "Địa chỉ website thường bắt đầu bằng:",
+          "type": "tl1"
+        },
+        {
+          "correct_answer": "C",
+          "explanation": "",
+          "id": 11,
+          "number": 11,
+          "options": {
+            "A": "Word",
+            "B": "Excel",
+            "C": "PowerPoint",
+            "D": "Paint"
+          },
+          "question": "Phần mềm trình chiếu thường dùng là:",
+          "type": "tl1"
+        },
+        {
+          "correct_answer": "A",
+          "explanation": "",
+          "id": 12,
+          "number": 12,
+          "options": {
+            "A": "Slide",
+            "B": "Page",
+            "C": "Sheet",
+            "D": "Frame"
+          },
+          "question": "Trong PowerPoint, trang trình chiếu được gọi là:",
+          "type": "tl1"
+        },
+        {
+          "correct_answer": "B",
+          "explanation": "",
+          "id": 13,
+          "number": 13,
+          "options": {
+            "A": "Một ngôn ngữ lập trình",
+            "B": "Một dãy hữu hạn các bước để giải bài toán",
+            "C": "Một phần mềm",
+            "D": "Một thiết bị"
+          },
+          "question": "Thuật toán là gì?",
+          "type": "tl1"
+        },
+        {
+          "correct_answer": "B",
+          "explanation": "",
+          "id": 14,
+          "number": 14,
+          "options": {
+            "A": "Python",
+            "B": "Pascal",
+            "C": "Java",
+            "D": "C++"
+          },
+          "question": "Ngôn ngữ lập trình thường học ở THCS là:",
+          "type": "tl1"
+        },
+        {
+          "correct_answer": "C",
+          "explanation": "",
+          "id": 15,
+          "number": 15,
+          "options": {
+            "A": "readln",
+            "B": "input",
+            "C": "writeln",
+            "D": "print"
+          },
+          "question": "Lệnh xuất dữ liệu trong Pascal là:",
+          "type": "tl1"
+        },
+        {
+          "correct_answer": "A",
+          "explanation": "",
+          "id": 16,
+          "number": 16,
+          "options": {
+            "A": "Lưu trữ dữ liệu",
+            "B": "Hiển thị dữ liệu",
+            "C": "Xóa dữ liệu",
+            "D": "In dữ liệu"
+          },
+          "question": "Biến trong lập trình dùng để:",
+          "type": "tl1"
+        },
+        {
+          "correct_answer": "B",
+          "explanation": "",
+          "id": 17,
+          "number": 17,
+          "options": {
+            "A": "Byte",
+            "B": "Bit",
+            "C": "KB",
+            "D": "MB"
+          },
+          "question": "Đơn vị nhỏ nhất để lưu trữ thông tin là:",
+          "type": "tl1"
+        },
+        {
+          "correct_answer": "C",
+          "explanation": "",
+          "id": 18,
+          "number": 18,
+          "options": {
+            "A": "Màn hình",
+            "B": "Máy in",
+            "C": "Chuột",
+            "D": "Loa"
+          },
+          "question": "Thiết bị nào là thiết bị nhập?",
+          "type": "tl1"
+        },
+        {
+          "correct_answer": "B",
+          "explanation": "",
+          "id": 19,
+          "number": 19,
+          "options": {
+            "A": "Soạn thảo văn bản",
+            "B": "Quản lý và điều khiển máy tính",
+            "C": "Vẽ hình",
+            "D": "Nghe nhạc"
+          },
+          "question": "Hệ điều hành dùng để:",
+          "type": "tl1"
+        },
+        {
+          "correct_answer": "B",
+          "explanation": "",
+          "id": 20,
+          "number": 20,
+          "options": {
+            "A": "Microsoft Word",
+            "B": "Windows",
+            "C": "Excel",
+            "D": "Chrome"
+          },
+          "question": "Ví dụ về hệ điều hành là:",
+          "type": "tl1"
+        },
+        {
+          "correct_answer": "",
+          "explanation": "",
+          "id": 21,
+          "number": 21,
+          "options": {},
+          "question": "Internet là gì? Nêu 2 lợi ích của Internet trong học tập.",
+          "type": "essay"
+        },
+        {
+          "correct_answer": "",
+          "explanation": "",
+          "id": 22,
+          "number": 22,
+          "options": {},
+          "question": "Hãy trình bày thuật toán (bằng lời hoặc sơ đồ khối) để tính tổng hai số a và b nhập từ bàn phím.",
+          "type": "essay"
+        }
+      ],
+      "allow_multiple_answers": false,
+      "created_by": "1",
+      "created_by_name": "colan",
+      "created_at": "2026-01-19T19:50:23.863485",
+      "created_by_ai": true
+    }
+  ]
+}

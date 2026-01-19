@@ -118,10 +118,15 @@
                 <p>Tải lên video và tài liệu học tập mới</p>
                 <span class="arrow">→</span>
             </a>
-            
+            <a href="{{ url_for('documents') }}" class="management-card">
+                <div class="management-icon">📁</div>
+                <h4>Tài liệu</h4>
+                <p>Quản lí tài liệu ở đây</p>
+                <span class="arrow">→</span>
+            </a>
             <a href="{{ url_for('import_exam') }}" class="management-card">
                 <div class="management-icon">📝</div>
-                <h4>Import đề thi</h4>
+                <h4>Import đề thi tự động</h4>
                 <p>Tạo nhanh đề trắc nghiệm từ file Word chuẩn hóa</p>
                 <span class="arrow">→</span>
             </a>

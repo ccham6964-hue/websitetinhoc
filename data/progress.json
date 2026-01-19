@@ -47,5 +47,13 @@
       "1"
     ],
     "last_updated": "2025-10-23T11:30:41.379646"
+  },
+  {
+    "user_id": "6",
+    "course_id": "course_1",
+    "completed_lessons": [
+      "1"
+    ],
+    "last_updated": "2026-01-19T21:28:28.181105"
   }
 ]

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Trang chủ - Học Tin THPT{% endblock %}
+{% block title %}Trang chủ - Học Tin THCS{% endblock %}
 
 {% block content %}
 <style>
@@ -199,7 +199,7 @@
 
     .classes-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: 2.5rem;
         max-width: 1400px;
         margin: 0 auto;
@@ -242,6 +242,10 @@
 
     .class-card:nth-child(3) {
         background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    .class-card:nth-child(4) {
+        background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
     }
 
     .class-header {
@@ -488,10 +492,10 @@
 <!-- Hero Section -->
 <section class="hero-section">
     <div class="hero-content">
-        <h1 class="hero-title"> Học Tin Học THPT</h1>
-        <p class="hero-subtitle">Nền tảng học tập trực tuyến hiện đại - Nơi khơi nguồn đam mê công nghệ và lập trình</p>
+        <h1 class="hero-title">🎓 Học Tin Học THCS</h1>
+        <p class="hero-subtitle">Nền tảng học tập trực tuyến hiện đại - Nơi khơi nguồn đam mê công nghệ và lập trình cho học sinh THCS</p>
         <div class="hero-buttons">
-            <a href="{{ url_for('lop10') }}" class="btn-hero btn-hero-primary">
+            <a href="{{ url_for('lop6') }}" class="btn-hero btn-hero-primary">
                 <i class="fas fa-rocket"></i> Bắt đầu học ngay
             </a>
             <a href="{{ url_for('forum') }}" class="btn-hero btn-hero-secondary">
@@ -503,22 +507,22 @@
 
 <!-- Features Section -->
 <section class="features-section">
-    <h2 class="section-title"> Tính năng nổi bật</h2>
+    <h2 class="section-title">✨ Tính năng nổi bật</h2>
     <div class="features-grid">
         <div class="feature-card">
             <div class="feature-icon">
                 <i class="fas fa-book-open"></i>
             </div>
-            <h3 class="feature-title">Bài giảng chất lượng</h3>
-            <p class="feature-description">Nội dung được biên soạn chi tiết, dễ hiểu, phù hợp với chương trình THPT từ lớp 10 đến 12.</p>
+            <h3 class="feature-title">Bài giảng sinh động</h3>
+            <p class="feature-description">Nội dung được biên soạn chi tiết, dễ hiểu, phù hợp với chương trình THCS từ lớp 6 đến 9.</p>
         </div>
 
         <div class="feature-card">
             <div class="feature-icon">
                 <i class="fas fa-tasks"></i>
             </div>
-            <h3 class="feature-title">Bài tập đa dạng</h3>
-            <p class="feature-description">Hệ thống bài tập phong phú với nhiều mức độ, giúp củng cố kiến thức và rèn luyện kỹ năng.</p>
+            <h3 class="feature-title">Bài tập thú vị</h3>
+            <p class="feature-description">Hệ thống bài tập phong phú với nhiều mức độ, giúp củng cố kiến thức và rèn luyện tư duy.</p>
         </div>
 
         <div class="feature-card">
@@ -557,23 +561,23 @@
 
 <!-- Classes Section -->
 <section class="classes-section">
-    <h2 class="section-title">📚Chương trình học</h2>
+    <h2 class="section-title">📚 Chương trình học</h2>
     <div class="classes-grid">
         <div class="class-card">
             <div class="class-header">
-                <span class="class-icon"></span>
-                <h3 class="class-title">Lớp 10</h3>
-                <p class="class-subtitle">Nền tảng tin học cơ bản</p>
+                <span class="class-icon">📱</span>
+                <h3 class="class-title">Lớp 6</h3>
+                <p class="class-subtitle">Làm quen với tin học</p>
             </div>
             <div class="class-body">
                 <ul class="class-features">
-                    <li>Giới thiệu về tin học và máy tính</li>
-                    <li>Hệ điều hành và phần mềm ứng dụng</li>
-                    <li>Xử lý văn bản và bảng tính</li>
-                    <li>Lập trình Pascal cơ bản</li>
-                    <li>Thuật toán và lưu đồ</li>
+                    <li>Giới thiệu về máy tính và tin học</li>
+                    <li>Sử dụng bàn phím và chuột</li>
+                    <li>Hệ điều hành Windows cơ bản</li>
+                    <li>Vẽ và tô màu trên máy tính</li>
+                    <li>An toàn thông tin cho trẻ em</li>
                 </ul>
-                <a href="{{ url_for('lop10') }}" class="btn-class">
+                <a href="{{ url_for('lop6') }}" class="btn-class">
                     <i class="fas fa-arrow-right"></i> Khám phá ngay
                 </a>
             </div>
@@ -581,19 +585,19 @@
 
         <div class="class-card">
             <div class="class-header">
-                <span class="class-icon"></span>
-                <h3 class="class-title">Lớp 11</h3>
-                <p class="class-subtitle">Nâng cao kỹ năng lập trình</p>
+                <span class="class-icon">💻</span>
+                <h3 class="class-title">Lớp 7</h3>
+                <p class="class-subtitle">Khám phá phần mềm ứng dụng</p>
             </div>
             <div class="class-body">
                 <ul class="class-features">
-                    <li>Cấu trúc dữ liệu nâng cao</li>
-                    <li>Mảng và xử lý mảng</li>
-                    <li>Chuỗi ký tự và xử lý chuỗi</li>
-                    <li>Thủ tục và hàm</li>
-                    <li>File và xử lý file</li>
+                    <li>Soạn thảo văn bản với Word</li>
+                    <li>Trình chiếu với PowerPoint</li>
+                    <li>Internet và tìm kiếm thông tin</li>
+                    <li>Email và giao tiếp trực tuyến</li>
+                    <li>Lưu trữ và quản lý tệp tin</li>
                 </ul>
-                <a href="{{ url_for('lop11') }}" class="btn-class">
+                <a href="{{ url_for('lop7') }}" class="btn-class">
                     <i class="fas fa-arrow-right"></i> Khám phá ngay
                 </a>
             </div>
@@ -601,19 +605,39 @@
 
         <div class="class-card">
             <div class="class-header">
-                <span class="class-icon"></span>
-                <h3 class="class-title">Lớp 12</h3>
-                <p class="class-subtitle">Hoàn thiện và ôn thi THPT</p>
+                <span class="class-icon">📊</span>
+                <h3 class="class-title">Lớp 8</h3>
+                <p class="class-subtitle">Bảng tính và lập trình cơ bản</p>
             </div>
             <div class="class-body">
                 <ul class="class-features">
-                    <li>Lập trình hướng đối tượng</li>
-                    <li>Cơ sở dữ liệu và SQL</li>
-                    <li>Mạng máy tính và internet</li>
-                    <li>Ôn tập tổng hợp</li>
-                    <li>Luyện đề thi THPT Quốc gia</li>
+                    <li>Xử lý bảng tính với Excel</li>
+                    <li>Công thức và hàm cơ bản</li>
+                    <li>Biểu đồ và đồ thị</li>
+                    <li>Giới thiệu lập trình Scratch</li>
+                    <li>Tư duy logic và giải quyết vấn đề</li>
                 </ul>
-                <a href="{{ url_for('lop12') }}" class="btn-class">
+                <a href="{{ url_for('lop8') }}" class="btn-class">
+                    <i class="fas fa-arrow-right"></i> Khám phá ngay
+                </a>
+            </div>
+        </div>
+
+        <div class="class-card">
+            <div class="class-header">
+                <span class="class-icon">🎮</span>
+                <h3 class="class-title">Lớp 9</h3>
+                <p class="class-subtitle">Lập trình và tổng hợp kiến thức</p>
+            </div>
+            <div class="class-body">
+                <ul class="class-features">
+                    <li>Lập trình Scratch nâng cao</li>
+                    <li>Giới thiệu ngôn ngữ Python</li>
+                    <li>Thuật toán cơ bản</li>
+                    <li>Ôn tập tổng hợp THCS</li>
+                    <li>Chuẩn bị cho kỳ thi vào lớp 10</li>
+                </ul>
+                <a href="{{ url_for('lop9') }}" class="btn-class">
                     <i class="fas fa-arrow-right"></i> Khám phá ngay
                 </a>
             </div>
@@ -623,22 +647,22 @@
 
 <!-- Stats Section -->
 <section class="stats-section">
-    <h2 class="section-title" style="color: white; -webkit-text-fill-color: white;"> Thành tựu của chúng tôi</h2>
+    <h2 class="section-title" style="color: white; -webkit-text-fill-color: white;">🏆 Thành tựu của chúng tôi</h2>
     <div class="stats-grid">
         <div class="stat-card">
-            <div class="stat-number">1000+</div>
-            <div class="stat-label">Học viên</div>
+            <div class="stat-number">2000+</div>
+            <div class="stat-label">Học sinh</div>
         </div>
         <div class="stat-card">
-            <div class="stat-number">500+</div>
+            <div class="stat-number">400+</div>
             <div class="stat-label">Bài giảng</div>
         </div>
         <div class="stat-card">
-            <div class="stat-number">2000+</div>
+            <div class="stat-number">1500+</div>
             <div class="stat-label">Bài tập</div>
         </div>
         <div class="stat-card">
-            <div class="stat-number">98%</div>
+            <div class="stat-number">99%</div>
             <div class="stat-label">Hài lòng</div>
         </div>
     </div>
@@ -647,10 +671,10 @@
 <!-- CTA Section -->
 <section class="cta-section">
     <div class="cta-content">
-        <h2 class="cta-title"> Sẵn sàng bắt đầu hành trình học tập?</h2>
+        <h2 class="cta-title">🚀 Sẵn sàng bắt đầu hành trình học tập?</h2>
         <p class="cta-description">
-            Tham gia cùng hàng nghìn học sinh đang học tập và phát triển kỹ năng tin học. 
-            Đăng ký ngay hôm nay để trải nghiệm nền tảng học tập hiện đại nhất!
+            Tham gia cùng hàng nghìn học sinh THCS đang học tập và phát triển kỹ năng tin học. 
+            Đăng ký ngay hôm nay để trải nghiệm nền tảng học tập hiện đại và thú vị nhất!
         </p>
         <div class="cta-buttons">
             <a href="{{ url_for('chatbot') }}" class="btn-cta btn-cta-primary">

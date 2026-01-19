@@ -7,8 +7,11 @@ from functools import wraps
 from dotenv import load_dotenv
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash
 from werkzeug.utils import secure_filename
+from utils.ai_exam_converter import extract_text_from_docx, convert_exam_with_ai, validate_exam_data
 
-load_dotenv()
+import re
+from docx import Document
+from utils.gemini_api import get_gemini_response
 
 from utils.auth import register_user, login_user, get_user_by_id
 from utils.database import Database
@@ -16,6 +19,7 @@ from utils.exam_parser import ExamParseError, parse_docx_exam
 from utils.gemini_api import chat_with_gemini
 
 app = Flask(__name__)
+load_dotenv()
 app.secret_key = os.getenv('FLASK_SECRET_KEY', 'dev-secret-key-change-me')
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=2)
 app.config['SESSION_COOKIE_SECURE'] = os.getenv('SESSION_COOKIE_SECURE', 'false').lower() == 'true'
@@ -28,16 +32,15 @@ ALLOWED_EXAM_EXTENSIONS = {'docx'}
 
 
 GRADE_LABELS = {
-    '10': 'Lớp 10',
-    '11': 'Lớp 11',
-    '12': 'Lớp 12',
-    'TN-THPT': 'Lớp TN-THPT'
+    '6': 'Lớp 6',
+    '7': 'Lớp 7', 
+    '8': 'Lớp 8',
+    '9': 'Lớp 9'
 }
-AVAILABLE_GRADES = list(GRADE_LABELS.keys())
-DEFAULT_GRADE = '12'
-
+AVAILABLE_GRADES = ['6', '7', '8', '9']
+DEFAULT_GRADE = '6'
 db = Database()
-
+####
 
 def login_required(f):
     @wraps(f)
@@ -409,7 +412,7 @@ def documents():
     # ✅ Thêm giá trị mặc định cho documents cũ
     for doc in docs:
         if 'grade' not in doc or not doc.get('grade'):
-            doc['grade'] = '12'  # Mặc định lớp 12
+            doc['grade'] = '6'  # Mặc định lớp 6
         if 'doc_type' not in doc or not doc.get('doc_type'):
             doc['doc_type'] = 'document'  # Mặc định là tài liệu
     
@@ -1139,252 +1142,191 @@ def tracnghiem():
         flash(f'Lỗi khi tải danh sách đề thi: {str(e)}', 'danger')
         return redirect(url_for('student_dashboard'))
 
-@app.route('/tracnghiem/nop-bai', methods=['POST'])
+############
+@app.route('/tracnghiem/ket-qua/<grade>/<exam_id>')
 @login_required
-def nop_bai_tracnghiem():
+def ket_qua_tracnghiem(grade, exam_id):
     """
-    Nộp bài -  Thêm validate thời gian
+    Hiển thị kết quả bài làm với AI Analysis
     """
     try:
-        data = request.get_json()
+        user_id = session.get('user_id')
         
-        if not data:
-            return jsonify({
-                'success': False,
-                'message': 'Không nhận được dữ liệu'
-            }), 400
+        results_file = 'data/exam_results.json'
         
-        grade = data.get('grade')
-        exam_id = data.get('exam_id')
-        answers = data.get('answers', {})
+        try:
+            with open(results_file, 'r', encoding='utf-8') as f:
+                all_results = json.load(f)
+        except FileNotFoundError:
+            flash('Không tìm thấy kết quả bài làm', 'warning')
+            return redirect(url_for('tracnghiem'))
         
-        if not grade or not exam_id:
-            return jsonify({
-                'success': False,
-                'message': 'Thiếu thông tin đề thi'
-            }), 400
+        # Lấy kết quả phù hợp
+        matching_results = [
+            r for r in all_results 
+            if r.get('user_id') == user_id 
+            and r.get('grade') == grade 
+            and r.get('exam_id') == exam_id
+        ]
         
-        if grade not in AVAILABLE_GRADES:
-            return jsonify({
-                'success': False,
-                'message': 'Lớp không hợp lệ'
-            }), 400
+        if not matching_results:
+            flash('Không tìm thấy kết quả bài làm', 'warning')
+            return redirect(url_for('tracnghiem'))
         
-        session_key = f'exam_start_{grade}_{exam_id}'
+        result = matching_results[-1]
         
-        if session_key not in session:
-            return jsonify({
-                'success': False,
-                'message': ' Session đã hết hạn. Vui lòng làm lại.'
-            }), 403
+        # ===== TẠO AI ANALYSIS =====
+        ai_analysis = None
         
-        json_file = f'data/lop{grade}.json'
-        with open(json_file, 'r', encoding='utf-8') as f:
-            exams_data = json.load(f)
-            exams = exams_data.get('exams', [])
-            exam = next((e for e in exams if e['id'] == exam_id), None)
-            
-            if not exam:
-                return jsonify({
-                    'success': False,
-                    'message': 'Không tìm thấy đề thi'
-                }), 404
-            
-            time_limit = exam.get('time_limit', 15)
-            
+        # Chỉ tạo AI analysis nếu đã có điểm
+        if result.get('score') is not None:
             try:
-                start_time = datetime.fromisoformat(session[session_key])
-                elapsed_seconds = (datetime.now() - start_time).total_seconds()
-                
-                if elapsed_seconds > (time_limit * 60):
-                    # Nộp muộn - không chấp nhận
-                    session.pop(session_key, None)
-                    session.modified = True
-                    
-                    return jsonify({
-                        'success': False,
-                        'message': '⏰ Đã hết thời gian làm bài! Không thể nộp.'
-                    }), 403
-            
-            except (ValueError, KeyError):
-                return jsonify({
-                    'success': False,
-                    'message': 'Session không hợp lệ'
-                }), 403
-            questions = exam.get('questions', [])
-            total_questions = len(questions)
-            total_points = 0.0
-            full_correct_count = 0
-            wrong_answers = []
-            question_breakdown = []
-
-            for question in questions:
-                q_id = str(question.get('id'))
-                question_type = question.get('type', 'tl1')
-                options = question.get('options', {}) or {}
-                correct_answer_value = question.get('correct_answer')
-                correct_choices = normalize_correct_answers(correct_answer_value)
-
-                option_token_map = {normalize_answer_token(key): key for key in options.keys()}
-
-                if question_type == 'tl2':
-                    response_payload = answers.get(q_id, {})
-                    if isinstance(response_payload, dict):
-                        selected_true_raw = response_payload.get('selected_true', [])
-                        option_states_raw = response_payload.get('option_states', {})
-                    elif isinstance(response_payload, list):
-                        selected_true_raw = response_payload
-                        option_states_raw = {}
-                    else:
-                        selected_true_raw = response_payload if response_payload else []
-                        option_states_raw = {}
-
-                    if isinstance(selected_true_raw, str):
-                        selected_true_raw = [selected_true_raw]
-
-                    student_true = {
-                        normalize_answer_token(choice)
-                        for choice in selected_true_raw
-                        if normalize_answer_token(choice) in option_token_map
-                    }
-                    expected_true = {token for token in correct_choices if token in option_token_map}
-                    answered_tokens = {
-                        normalize_answer_token(key)
-                        for key in (option_states_raw.keys() if isinstance(option_states_raw, dict) else [])
-                    }
-                    all_tokens = {normalize_answer_token(key) for key in options.keys()}
-                    missing_tokens = all_tokens - answered_tokens
-
-                    mistakes = len(expected_true.symmetric_difference(student_true))
-                    extra_mistakes = len(missing_tokens - expected_true)
-                    mistakes = min(len(all_tokens), mistakes + extra_mistakes)
-
-                    question_point = calculate_tl2_score(mistakes)
-
-                    if question_point >= 0.999:
-                        full_correct_count += 1
-                    else:
-                        wrong_answers.append({
-                            'question_number': question.get('number'),
-                            'question_text': question.get('question'),
-                            'question_type': 'tl2',
-                            'student_true': [option_token_map.get(token, token) for token in sorted(student_true)],
-                            'expected_true': [option_token_map.get(token, token) for token in sorted(expected_true)],
-                            'options': options,
-                            'mistakes': mistakes,
-                            'option_states': option_states_raw,
-                            'missing_choices': [option_token_map.get(token, token) for token in sorted(missing_tokens)],
-                            'explanation': question.get('explanation', '')
-                        })
-
-                    question_breakdown.append({
-                        'question_number': question.get('number'),
-                        'type': 'tl2',
-                        'score': question_point,
-                        'mistakes': mistakes
-                    })
-                else:
-                    response_payload = answers.get(q_id, '')
-                    if isinstance(response_payload, dict):
-                        user_choice = normalize_answer_token(response_payload.get('selected'))
-                    else:
-                        user_choice = normalize_answer_token(response_payload)
-
-                    if user_choice and user_choice in correct_choices:
-                        question_point = 1.0
-                        full_correct_count += 1
-                    else:
-                        question_point = 0.0
-                        wrong_answers.append({
-                            'question_number': question.get('number'),
-                            'question_text': question.get('question'),
-                            'question_type': 'standard',
-                            'user_answer': user_choice if user_choice else 'Không trả lời',
-                            'correct_answer': format_correct_answer(correct_answer_value),
-                            'explanation': question.get('explanation', '')
-                        })
-
-                    question_breakdown.append({
-                        'question_number': question.get('number'),
-                        'type': 'standard',
-                        'score': question_point,
-                        'selected': user_choice
-                    })
-
-                total_points += question_point
-
-            score = round((total_points / total_questions) * 10, 2) if total_questions > 0 else 0
-
-
-            session.pop(session_key, None)
-            session.modified = True
-            
-            # Lưu kết quả
-            result_data = {
-                'user_id': session['user_id'],
-                'username': session.get('username', 'Unknown'),
-                'grade': grade,
-                'exam_id': exam_id,
-                'exam_title': exam.get('title', ''),
-                'score': score,
-                'correct_count': full_correct_count,
-                'total_questions': total_questions,
-                'total_points': round(total_points, 2),
-                'question_breakdown': question_breakdown,
-                'submitted_at': datetime.now().strftime('%d/%m/%Y %H:%M:%S'),
-                'time_spent_seconds': int(elapsed_seconds)  # 
-            }
-            
-            try:
-                results_file = 'data/exam_results.json'
-                os.makedirs('data', exist_ok=True)
-                
-                try:
-                    with open(results_file, 'r', encoding='utf-8') as f:
-                        all_results = json.load(f)
-                except FileNotFoundError:
-                    all_results = []
-                
-                all_results.append(result_data)
-                
-                with open(results_file, 'w', encoding='utf-8') as f:
-                    json.dump(all_results, f, ensure_ascii=False, indent=2)
-                
-                print(f"✅ Saved result: User {session['user_id']}, Score: {score}")
-            
-            except Exception as e:
-                print(f"❌ Error saving result: {e}")
-            
-            return jsonify({
-                'success': True,
-                'score': score,
-                'correct_count': full_correct_count,
-                'total_questions': total_questions,
-                'total_points': round(total_points, 2),
-                'wrong_answers': wrong_answers,
-                'message': 'Nộp bài thành công'
-            })
-    
-    except FileNotFoundError:
-        return jsonify({
-            'success': False,
-            'message': 'Không tìm thấy file dữ liệu đề thi'
-        }), 404
-    
-    except json.JSONDecodeError:
-        return jsonify({
-            'success': False,
-            'message': 'Dữ liệu đề thi bị lỗi'
-        }), 500
+                ai_analysis = generate_ai_analysis(result)
+                print(f"✅ Generated AI analysis for exam {exam_id}")
+            except Exception as ai_error:
+                print(f"⚠️ AI analysis failed: {ai_error}")
+                # Không có AI analysis cũng không sao, trang vẫn hiển thị bình thường
+        
+        return render_template('ketqua.html', 
+                             result=result,
+                             ai_analysis=ai_analysis,
+                             username=session.get('username'))
     
     except Exception as e:
-        print(f"ERROR in nop_bai_tracnghiem: {str(e)}")
+        print(f"ERROR in ket_qua_tracnghiem: {str(e)}")
         import traceback
         traceback.print_exc()
-        return jsonify({
-            'success': False,
-            'message': f'Lỗi server: {str(e)}'
-        }), 500
+        flash(f'Lỗi khi hiển thị kết quả: {str(e)}', 'danger')
+        return redirect(url_for('tracnghiem'))
+
+
+def generate_ai_analysis(result):
+    """
+    Tạo phân tích AI dựa trên kết quả bài làm
+    
+    Args:
+        result: Dict chứa thông tin kết quả bài thi
+        
+    Returns:
+        Dict chứa AI analysis hoặc None nếu lỗi
+    """
+    try:
+        score = result.get('score', 0)
+        correct_count = result.get('correct_count', 0)
+        total_questions = result.get('total_questions', 1)
+        exam_title = result.get('exam_title', 'bài thi')
+        
+        # Tính phần trăm đúng
+        percentage = (correct_count / total_questions * 100) if total_questions > 0 else 0
+        
+        # Tạo prompt cho AI
+        prompt = f"""Bạn là trợ lý AI giáo dục chuyên nghiệp. Hãy phân tích kết quả bài thi của học sinh.
+
+**THÔNG TIN BÀI THI:**
+- Đề thi: {exam_title}
+- Điểm số: {score}/10
+- Số câu đúng: {correct_count}/{total_questions} ({percentage:.1f}%)
+
+**YÊU CẦU:**
+Hãy tạo một bản phân tích chi tiết, khuyến khích và xây dựng với các phần sau:
+
+1. **overall_assessment**: Đánh giá tổng quan ngắn gọn (2-3 câu) về kết quả, giọng điệu tích cực và động viên
+
+2. **strengths**: Liệt kê 2-3 điểm mạnh của học sinh (dựa trên tỷ lệ đúng)
+   - Nếu điểm >=8: nhấn mạnh sự xuất sắc, kiến thức vững
+   - Nếu 5-7.9: nhấn mạnh những phần đã làm tốt
+   - Nếu <5: tìm điểm tích cực (nỗ lực, thái độ học tập...)
+
+3. **weaknesses**: Chỉ ra 2-3 điểm cần cải thiện (giọng nhẹ nhàng, xây dựng)
+   - KHÔNG dùng từ tiêu cực như "yếu kém", "tệ"
+   - Dùng "cần chú ý thêm", "có thể cải thiện"
+
+4. **study_plan**: Đưa ra 3-4 bước cụ thể để cải thiện
+   - Mỗi bước phải rõ ràng, khả thi
+   - Ưu tiên hành động thực tế
+
+5. **encouragement**: Một câu động viên chân thành và ấm áp (1-2 câu)
+
+**ĐỊNH DẠNG TRẢ LỜI (JSON):**
+{{
+    "overall_assessment": "...",
+    "strengths": "• Điểm mạnh 1\\n• Điểm mạnh 2\\n• Điểm mạnh 3",
+    "weaknesses": "• Điểm cần cải thiện 1\\n• Điểm cần cải thiện 2",
+    "study_plan": "• Bước 1\\n• Bước 2\\n• Bước 3\\n• Bước 4",
+    "encouragement": "..."
+}}
+
+**LƯU Ý:**
+- Dùng \\n để xuống dòng giữa các điểm
+- Giọng văn thân thiện, động viên
+- Tập trung vào giải pháp, không chỉ trích
+- Phù hợp với học sinh THCS (12-15 tuổi)
+
+Chỉ trả về JSON, không giải thích thêm."""
+
+        # Gọi Gemini API
+        response = get_gemini_response(prompt)
+        
+        # Parse JSON
+        import re
+        json_match = re.search(r'\{[^{}]*"overall_assessment"[^{}]*\}', response, re.DOTALL)
+        
+        if json_match:
+            analysis = json.loads(json_match.group(0))
+            
+            # Validate các trường bắt buộc
+            required_fields = ['overall_assessment', 'strengths', 'weaknesses', 'study_plan', 'encouragement']
+            for field in required_fields:
+                if field not in analysis or not analysis[field]:
+                    raise ValueError(f"Missing field: {field}")
+            
+            return analysis
+        else:
+            # Fallback: tạo analysis cơ bản
+            return create_fallback_analysis(score, percentage)
+    
+    except Exception as e:
+        print(f"Error generating AI analysis: {e}")
+        # Trả về fallback analysis
+        return create_fallback_analysis(result.get('score', 0), 
+                                       (result.get('correct_count', 0) / result.get('total_questions', 1) * 100))
+
+
+def create_fallback_analysis(score, percentage):
+    """
+    Tạo phân tích dự phòng khi AI không khả dụng
+    """
+    if score >= 8:
+        overall = "Xuất sắc! Bạn đã thể hiện sự nắm vững kiến thức tốt. Tiếp tục duy trì phong độ này!"
+        strengths = "• Nắm vững kiến thức cơ bản\n• Làm bài tập chính xác\n• Tư duy logic tốt"
+        weaknesses = "• Có thể nâng cao tốc độ làm bài\n• Rèn luyện thêm các dạng khó"
+        encouragement = "Tuyệt vời! Hãy tiếp tục phát huy! 🌟"
+    
+    elif score >= 5:
+        overall = f"Khá tốt! Bạn đã hoàn thành {percentage:.0f}% bài thi. Còn một chút nữa là đạt điểm cao!"
+        strengths = "• Có nền tảng kiến thức ổn định\n• Nỗ lực trong quá trình học\n• Tiềm năng phát triển tốt"
+        weaknesses = "• Cần ôn tập thêm một số phần\n• Luyện tập nhiều dạng bài hơn\n• Chú ý đọc kỹ đề"
+        encouragement = "Bạn đang trên đúng hướng! Cố gắng thêm một chút nữa nhé! 💪"
+    
+    else:
+        overall = f"Bạn đã cố gắng hoàn thành bài thi. Đây là cơ hội tốt để học hỏi và cải thiện!"
+        strengths = "• Có thái độ học tập tích cực\n• Dám thử sức với đề thi\n• Sẵn sàng học hỏi và tiến bộ"
+        weaknesses = "• Cần củng cố kiến thức cơ bản\n• Dành thời gian ôn tập đều đặn\n• Làm nhiều bài tập hơn"
+        encouragement = "Đừng nản chí! Mỗi lần làm bài là một cơ hội để tiến bộ! 🌱"
+    
+    study_plan = """• Ôn lại lý thuyết cơ bản mỗi ngày 30 phút
+• Làm thêm 5-10 bài tập tương tự
+• Ghi chép những điều chưa hiểu và hỏi giáo viên
+• Tự kiểm tra kiến thức định kỳ"""
+    
+    return {
+        'overall_assessment': overall,
+        'strengths': strengths,
+        'weaknesses': weaknesses,
+        'study_plan': study_plan,
+        'encouragement': encouragement
+    }
+##########
 
 @app.route('/tracnghiem/lich-su')
 @login_required
@@ -1440,49 +1382,164 @@ def reset_exam_session(grade, exam_id):
     return redirect(url_for('lam_bai_tracnghiem', grade=grade, exam_id=exam_id, reset='yes'))
 
 
-@app.route('/tracnghiem/ket-qua/<grade>/<exam_id>')
+
+        ####################
+@app.route('/tracnghiem/nop-bai', methods=['POST'])
 @login_required
-def ket_qua_tracnghiem(grade, exam_id):
+def nop_bai_tracnghiem():
     """
-    Hiển thị kết quả bài làm (lấy từ sessionStorage JavaScript)
+    API xử lý nộp bài trắc nghiệm - GỌI TỪ JAVASCRIPT
     """
     try:
+        data = request.get_json()
+        
+        # Validate dữ liệu đầu vào
+        if not data or not data.get('grade') or not data.get('exam_id'):
+            return jsonify({
+                'success': False,
+                'message': 'Thiếu thông tin đề thi'
+            }), 400
+        
+        grade = data.get('grade')
+        exam_id = data.get('exam_id')
+        answers = data.get('answers', {})
         user_id = session.get('user_id')
         
-
+        # Đọc đề thi để chấm điểm
+        json_file = f'data/lop{grade}.json'
+        
+        try:
+            with open(json_file, 'r', encoding='utf-8') as f:
+                exams_data = json.load(f)
+                exams = exams_data.get('exams', [])
+                exam = next((e for e in exams if e['id'] == exam_id), None)
+                
+                if not exam:
+                    return jsonify({
+                        'success': False,
+                        'message': 'Đề thi không tồn tại'
+                    }), 404
+        
+        except FileNotFoundError:
+            return jsonify({
+                'success': False,
+                'message': 'File đề thi không tồn tại'
+            }), 404
+        
+        # Chấm điểm
+        questions = exam.get('questions', [])
+        total_questions = len(questions)
+        correct_count = 0
+        total_score_float = 0.0
+        details = []
+        
+        for q in questions:
+            q_id = str(q.get('id'))
+            q_type = q.get('type', 'tl1')
+            correct_answer = q.get('correct_answer')
+            user_answer = answers.get(q_id)
+            
+            is_correct = False
+            score_for_question = 0.0
+            
+            if q_type == 'tl2':
+                # Câu TL2: tính điểm theo số sai
+                if isinstance(correct_answer, list) and isinstance(user_answer, list):
+                    correct_set = set(correct_answer)
+                    user_set = set(user_answer)
+                    mistakes = len(correct_set.symmetric_difference(user_set))
+                    score_for_question = calculate_tl2_score(mistakes)
+                    
+                    if mistakes == 0:
+                        is_correct = True
+                        correct_count += 1
+                
+                total_score_float += score_for_question
+            
+            else:
+                # Câu TL1: đúng/sai
+                if isinstance(correct_answer, list):
+                    is_correct = set(user_answer) == set(correct_answer) if isinstance(user_answer, list) else False
+                else:
+                    is_correct = str(user_answer).strip().upper() == str(correct_answer).strip().upper()
+                
+                if is_correct:
+                    correct_count += 1
+                    score_for_question = 1.0
+                
+                total_score_float += score_for_question
+            
+            details.append({
+                'question_id': q_id,
+                'user_answer': user_answer,
+                'correct_answer': correct_answer,
+                'is_correct': is_correct,
+                'score': score_for_question,
+                'type': q_type
+            })
+        
+        # Tính điểm thang 10
+        score = round((total_score_float / total_questions * 10) if total_questions > 0 else 0, 1)
+        
+        # Lưu kết quả vào file
+        result_record = {
+            'id': f"result_{user_id}_{exam_id}_{uuid.uuid4().hex[:6]}",
+            'user_id': user_id,
+            'username': session.get('username'),
+            'grade': grade,
+            'exam_id': exam_id,
+            'exam_title': exam.get('title', 'Đề thi'),
+            'answers': answers,
+            'score': score,
+            'correct_count': correct_count,
+            'total_questions': total_questions,
+            'details': details,
+            'submitted_at': datetime.now().isoformat()
+        }
+        
+        # Đọc file kết quả hiện tại
         results_file = 'data/exam_results.json'
         
         try:
             with open(results_file, 'r', encoding='utf-8') as f:
                 all_results = json.load(f)
-        except FileNotFoundError:
-            flash('Không tìm thấy kết quả bài làm', 'warning')
-            return redirect(url_for('tracnghiem'))
+        except (FileNotFoundError, json.JSONDecodeError):
+            all_results = []
         
-
-        matching_results = [
-            r for r in all_results 
-            if r.get('user_id') == user_id 
-            and r.get('grade') == grade 
-            and r.get('exam_id') == exam_id
-        ]
+        # Thêm kết quả mới
+        all_results.append(result_record)
         
-        if not matching_results:
-            flash('Không tìm thấy kết quả bài làm', 'warning')
-            return redirect(url_for('tracnghiem'))
+        # Lưu lại file
+        ensure_directory('data')
+        with open(results_file, 'w', encoding='utf-8') as f:
+            json.dump(all_results, f, ensure_ascii=False, indent=2)
         
-        result = matching_results[-1]
+        # Xóa session thời gian làm bài
+        session_key = f'exam_start_{grade}_{exam_id}'
+        if session_key in session:
+            session.pop(session_key)
+            session.modified = True
         
-        return render_template('ketqua.html', 
-                             result=result,
-                             username=session.get('username'))
+        print(f"✅ Saved result: User {user_id}, Exam {exam_id}, Score {score}/10")
+        
+        return jsonify({
+            'success': True,
+            'score': score,
+            'correct_count': correct_count,
+            'total_questions': total_questions,
+            'result_id': result_record['id'],
+            'message': 'Nộp bài thành công'
+        })
     
     except Exception as e:
-        print(f"ERROR in ket_qua_tracnghiem: {str(e)}")
-        flash(f'Lỗi khi hiển thị kết quả: {str(e)}', 'danger')
-        return redirect(url_for('tracnghiem'))
-        ####################
-
+        print(f"ERROR in nop_bai_tracnghiem: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        
+        return jsonify({
+            'success': False,
+            'message': f'Lỗi: {str(e)}'
+        }), 500
 ##############
 
 
@@ -1916,46 +1973,177 @@ def delete_chat_message(message_id):
         return jsonify({'success': False, 'message': f'Lỗi: {str(e)}'})
 
 #################
-@app.route('/lop10')
+
+########################
+@app.route('/teacher/import_exam_ai', methods=['GET', 'POST'])
+@teacher_required
+def import_exam_ai():
+    """
+    Import đề thi tự động bằng AI
+    """
+    form_data = {
+        'title': '',
+        'description': '',
+        'time_limit': '15',
+        'grade': DEFAULT_GRADE
+    }
+    
+    if request.method == 'POST':
+        try:
+            grade = request.form.get('grade', '').strip()
+            title = request.form.get('title', '').strip()
+            description = request.form.get('description', '').strip()
+            time_limit = request.form.get('time_limit', '15').strip()
+            exam_file = request.files.get('exam_file')
+            
+            # Validate
+            errors = []
+            
+            if grade not in AVAILABLE_GRADES:
+                errors.append('Vui lòng chọn khối lớp hợp lệ')
+            
+            if not title:
+                errors.append('Vui lòng nhập tên đề thi')
+            
+            if not exam_file or not exam_file.filename:
+                errors.append('Vui lòng chọn file đề thi')
+            elif not allowed_exam_file(exam_file.filename):
+                errors.append('Chỉ chấp nhận file .docx')
+            
+            if errors:
+                return jsonify({
+                    'success': False,
+                    'message': ' | '.join(errors)
+                })
+            
+            # Lưu file tạm
+            secure_name = secure_filename(exam_file.filename)
+            ensure_directory(EXAM_UPLOAD_FOLDER)
+            temp_filename = f"{uuid.uuid4().hex}_{secure_name}"
+            temp_path = os.path.join(EXAM_UPLOAD_FOLDER, temp_filename)
+            exam_file.save(temp_path)
+            
+            try:
+                # Đọc nội dung Word
+                docx_text = extract_text_from_docx(temp_path)
+                
+                if not docx_text or len(docx_text) < 50:
+                    raise ValueError("File Word không có nội dung hoặc nội dung quá ngắn")
+                
+                # Chuyển đổi bằng AI
+                exam_data = convert_exam_with_ai(docx_text, title, description)
+                
+                # Validate
+                validation_errors = validate_exam_data(exam_data)
+                if validation_errors:
+                    raise ValueError("Lỗi dữ liệu: " + " | ".join(validation_errors))
+                
+                # Xóa file tạm
+                os.remove(temp_path)
+                
+                return jsonify({
+                    'success': True,
+                    'exam_data': exam_data,
+                    'message': f'AI đã tạo {len(exam_data["questions"])} câu hỏi'
+                })
+            
+            except Exception as e:
+                # Xóa file tạm nếu lỗi
+                if os.path.exists(temp_path):
+                    os.remove(temp_path)
+                raise e
+        
+        except Exception as e:
+            return jsonify({
+                'success': False,
+                'message': f'Lỗi: {str(e)}'
+            })
+    
+    return render_template('import_exam_ai.html',
+                         form_data=form_data,
+                         grade_choices=AVAILABLE_GRADES,
+                         grade_labels=GRADE_LABELS)
+
+
+@app.route('/teacher/save_exam_ai', methods=['POST'])
+@teacher_required
+def save_exam_ai():
+    """
+    Lưu đề thi sau khi AI tạo
+    """
+    try:
+        data = request.get_json()
+        grade = data.get('grade', '').strip()
+        exam_data = data.get('exam_data', {})
+        
+        if grade not in AVAILABLE_GRADES:
+            return jsonify({'success': False, 'message': 'Lớp không hợp lệ'})
+        
+        if not exam_data or 'questions' not in exam_data:
+            return jsonify({'success': False, 'message': 'Dữ liệu đề thi không hợp lệ'})
+        
+        # Tạo exam record
+        exam_id = f"exam_{grade}_{uuid.uuid4().hex[:6]}"
+        
+        # Đảm bảo mỗi câu hỏi có id
+        for idx, q in enumerate(exam_data['questions'], start=1):
+            q['id'] = idx
+            q['number'] = idx
+        
+        exam_record = {
+            'id': exam_id,
+            'title': exam_data.get('title', 'Đề thi'),
+            'description': exam_data.get('description', ''),
+            'time_limit': exam_data.get('time_limit', 15),
+            'questions': exam_data['questions'],
+            'allow_multiple_answers': False,  # Không có câu nhiều đáp án
+            'created_by': session.get('user_id'),
+            'created_by_name': session.get('username'),
+            'created_at': datetime.now().isoformat(),
+            'created_by_ai': True  # Đánh dấu tạo bởi AI
+        }
+        
+        # Lưu vào database
+        db.add_exam(grade, exam_record)
+        
+        return jsonify({
+            'success': True,
+            'exam_id': exam_id,
+            'message': 'Lưu đề thi thành công'
+        })
+    
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'message': f'Lỗi: {str(e)}'
+        })
+#######################
+@app.route('/lop6')
 @login_required
-def lop10():
-    return render_template('lop10.html', username=session.get('username'))
+def lop6():
+    return render_template('lop6.html', username=session.get('username'))
 
 
-@app.route('/lop11')
+@app.route('/lop7')
 @login_required
-def lop11():
-    return render_template('lop11.html', username=session.get('username'))
+def lop7():
+    return render_template('lop7.html', username=session.get('username'))
 
 
-@app.route('/lop12')
+@app.route('/lop8')
 @login_required
-def lop12():
-    return render_template('lop12.html', username=session.get('username'))
+def lop8():
+    return render_template('lop8.html', username=session.get('username'))
 
 
+@app.route('/lop9')
+@login_required
+def lop9():
+    return render_template('lop9.html', username=session.get('username'))
 @app.route('/onthi')
 @login_required
 def onthi():
-    return render_template('onthi/onthi_main.html', username=session.get('username'))
-
-
-@app.route('/onthi/de-tham-khao')
-@login_required
-def onthi_de_tham_khao():
-    return render_template('onthi/de_tham_khao.html', username=session.get('username'))
-
-
-@app.route('/onthi/tai-lieu-on-luyen')
-@login_required
-def onthi_tai_lieu():
-    return render_template('onthi/tai_lieu_on_luyen.html', username=session.get('username'))
-
-
-@app.route('/onthi/de-chinh-thuc')
-@login_required
-def onthi_de_chinh_thuc():
-    return render_template('onthi/de_chinh_thuc.html', username=session.get('username'))
+    return render_template('onthi.html')
 ################
 @app.route('/xinchao')
 @login_required

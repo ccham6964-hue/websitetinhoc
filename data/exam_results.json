@@ -133,5 +133,1620 @@
     ],
     "submitted_at": "21/11/2025 16:44:21",
     "time_spent_seconds": 33
+  },
+  {
+    "user_id": "1",
+    "username": "colan",
+    "grade": "6",
+    "exam_id": "exam_6_f22278",
+    "exam_title": "test",
+    "score": 1.36,
+    "correct_count": 3,
+    "total_questions": 22,
+    "total_points": 3.0,
+    "question_breakdown": [
+      {
+        "question_number": 1,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 2,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 3,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 4,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 5,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 6,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 7,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 8,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 9,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 10,
+        "type": "standard",
+        "score": 1.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 11,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 12,
+        "type": "standard",
+        "score": 1.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 13,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 14,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 15,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 16,
+        "type": "standard",
+        "score": 1.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 17,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 18,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 19,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 20,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 21,
+        "type": "standard",
+        "score": 0.0,
+        "selected": ""
+      },
+      {
+        "question_number": 22,
+        "type": "standard",
+        "score": 0.0,
+        "selected": ""
+      }
+    ],
+    "submitted_at": "19/01/2026 19:53:05",
+    "time_spent_seconds": 155
+  },
+  {
+    "user_id": "6",
+    "username": "test1",
+    "grade": "6",
+    "exam_id": "exam_6_f22278",
+    "exam_title": "test",
+    "score": 1.36,
+    "correct_count": 3,
+    "total_questions": 22,
+    "total_points": 3.0,
+    "question_breakdown": [
+      {
+        "question_number": 1,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 2,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 3,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 4,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 5,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 6,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 7,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 8,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 9,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 10,
+        "type": "standard",
+        "score": 1.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 11,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 12,
+        "type": "standard",
+        "score": 1.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 13,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 14,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 15,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 16,
+        "type": "standard",
+        "score": 1.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 17,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 18,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 19,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 20,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 21,
+        "type": "standard",
+        "score": 0.0,
+        "selected": ""
+      },
+      {
+        "question_number": 22,
+        "type": "standard",
+        "score": 0.0,
+        "selected": ""
+      }
+    ],
+    "submitted_at": "19/01/2026 20:47:30",
+    "time_spent_seconds": 150
+  },
+  {
+    "user_id": "6",
+    "username": "test1",
+    "grade": "6",
+    "exam_id": "exam_6_f22278",
+    "exam_title": "test",
+    "score": null,
+    "correct_count": 3,
+    "total_questions": 22,
+    "total_points": 3.0,
+    "question_breakdown": [
+      {
+        "question_number": 1,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 2,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 3,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 4,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 5,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 6,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 7,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 8,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 9,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 10,
+        "type": "standard",
+        "score": 1.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 11,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 12,
+        "type": "standard",
+        "score": 1.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 13,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 14,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 15,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 16,
+        "type": "standard",
+        "score": 1.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 17,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 18,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 19,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 20,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 21,
+        "type": "essay",
+        "score": null,
+        "student_answer": ""
+      },
+      {
+        "question_number": 22,
+        "type": "essay",
+        "score": null,
+        "student_answer": ""
+      }
+    ],
+    "has_essay_questions": true,
+    "essay_answers": [
+      {
+        "question_number": 21,
+        "question_text": "Internet là gì? Nêu 2 lợi ích của Internet trong học tập.",
+        "student_answer": "",
+        "suggested_answer": "",
+        "max_score": 1
+      },
+      {
+        "question_number": 22,
+        "question_text": "Hãy trình bày thuật toán (bằng lời hoặc sơ đồ khối) để tính tổng hai số a và b nhập từ bàn phím.",
+        "student_answer": "",
+        "suggested_answer": "",
+        "max_score": 1
+      }
+    ],
+    "submitted_at": "19/01/2026 21:00:49",
+    "time_spent_seconds": 88
+  },
+  {
+    "user_id": "6",
+    "username": "test1",
+    "grade": "6",
+    "exam_id": "exam_6_f22278",
+    "exam_title": "test",
+    "score": null,
+    "correct_count": 3,
+    "total_questions": 22,
+    "total_points": 3.0,
+    "question_breakdown": [
+      {
+        "question_number": 1,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 2,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 3,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 4,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 5,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 6,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 7,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 8,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 9,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 10,
+        "type": "standard",
+        "score": 1.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 11,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 12,
+        "type": "standard",
+        "score": 1.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 13,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 14,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 15,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 16,
+        "type": "standard",
+        "score": 1.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 17,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 18,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 19,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 20,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 21,
+        "type": "essay",
+        "score": null,
+        "student_answer": ""
+      },
+      {
+        "question_number": 22,
+        "type": "essay",
+        "score": null,
+        "student_answer": ""
+      }
+    ],
+    "has_essay_questions": true,
+    "essay_answers": [
+      {
+        "question_number": 21,
+        "question_text": "Internet là gì? Nêu 2 lợi ích của Internet trong học tập.",
+        "student_answer": "",
+        "suggested_answer": "",
+        "max_score": 1
+      },
+      {
+        "question_number": 22,
+        "question_text": "Hãy trình bày thuật toán (bằng lời hoặc sơ đồ khối) để tính tổng hai số a và b nhập từ bàn phím.",
+        "student_answer": "",
+        "suggested_answer": "",
+        "max_score": 1
+      }
+    ],
+    "submitted_at": "19/01/2026 21:09:33",
+    "time_spent_seconds": 79
+  },
+  {
+    "user_id": "6",
+    "username": "test1",
+    "grade": "6",
+    "exam_id": "exam_6_f22278",
+    "exam_title": "test",
+    "score": null,
+    "correct_count": 11,
+    "total_questions": 22,
+    "total_points": 11.0,
+    "question_breakdown": [
+      {
+        "question_number": 1,
+        "type": "standard",
+        "score": 1.0,
+        "selected": "B"
+      },
+      {
+        "question_number": 2,
+        "type": "standard",
+        "score": 1.0,
+        "selected": "B"
+      },
+      {
+        "question_number": 3,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 4,
+        "type": "standard",
+        "score": 1.0,
+        "selected": "C"
+      },
+      {
+        "question_number": 5,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "C"
+      },
+      {
+        "question_number": 6,
+        "type": "standard",
+        "score": 1.0,
+        "selected": "C"
+      },
+      {
+        "question_number": 7,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 8,
+        "type": "standard",
+        "score": 1.0,
+        "selected": "C"
+      },
+      {
+        "question_number": 9,
+        "type": "standard",
+        "score": 1.0,
+        "selected": "B"
+      },
+      {
+        "question_number": 10,
+        "type": "standard",
+        "score": 1.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 11,
+        "type": "standard",
+        "score": 1.0,
+        "selected": "C"
+      },
+      {
+        "question_number": 12,
+        "type": "standard",
+        "score": 1.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 13,
+        "type": "standard",
+        "score": 1.0,
+        "selected": "B"
+      },
+      {
+        "question_number": 14,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 15,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "B"
+      },
+      {
+        "question_number": 16,
+        "type": "standard",
+        "score": 1.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 17,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 18,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 19,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 20,
+        "type": "standard",
+        "score": 0.0,
+        "selected": "A"
+      },
+      {
+        "question_number": 21,
+        "type": "essay",
+        "score": null,
+        "student_answer": ""
+      },
+      {
+        "question_number": 22,
+        "type": "essay",
+        "score": null,
+        "student_answer": ""
+      }
+    ],
+    "has_essay_questions": true,
+    "essay_answers": [
+      {
+        "question_number": 21,
+        "question_text": "Internet là gì? Nêu 2 lợi ích của Internet trong học tập.",
+        "student_answer": "",
+        "suggested_answer": "",
+        "max_score": 1
+      },
+      {
+        "question_number": 22,
+        "question_text": "Hãy trình bày thuật toán (bằng lời hoặc sơ đồ khối) để tính tổng hai số a và b nhập từ bàn phím.",
+        "student_answer": "",
+        "suggested_answer": "",
+        "max_score": 1
+      }
+    ],
+    "submitted_at": "19/01/2026 21:15:39",
+    "time_spent_seconds": 101
+  },
+  {
+    "id": "result_6_exam_6_f22278_16ae0f",
+    "user_id": "6",
+    "username": "test1",
+    "grade": "6",
+    "exam_id": "exam_6_f22278",
+    "exam_title": "test",
+    "answers": {
+      "1": "A",
+      "2": "A",
+      "3": "A",
+      "4": "A",
+      "5": "A",
+      "6": "A",
+      "7": "A",
+      "8": "A",
+      "9": "A",
+      "10": "A",
+      "11": "A",
+      "12": "A",
+      "13": "A",
+      "14": "A",
+      "15": "A",
+      "16": "A",
+      "17": "A",
+      "18": "A",
+      "19": "A",
+      "20": "A",
+      "21": {
+        "type": "essay",
+        "essay_answer": "Internet là mạng máy tính toàn cầu, kết nối hàng tỷ thiết bị trên khắp thế giới, cho phép con người trao đổi thông tin, chia sẻ dữ liệu và giao tiếp với nhau một cách nhanh chóng.\n\nHai lợi ích của Internet trong học tập:\n\nTra cứu tài liệu dễ dàng: Học sinh có thể tìm kiếm sách, bài giảng, video học tập, đề thi… giúp mở rộng kiến thức và tự học hiệu quả.\n\nHọc tập trực tuyến: Internet cho phép tham gia các lớp học online, học qua video, làm bài kiểm tra và trao đổi với giáo viên, bạn bè mọi lúc, mọi nơi."
+      },
+      "22": {
+        "type": "essay",
+        "essay_answer": "Thuật toán tính tổng hai số a và b (bằng lời):\n\nBắt đầu.\n\nNhập hai số \n𝑎\na và \n𝑏\nb từ bàn phím.\n\nTính tổng \n𝑆\n=\n𝑎\n+\n𝑏\nS=a+b.\n\nXuất kết quả \n𝑆\nS ra màn hình.\n\nKết thúc."
+      }
+    },
+    "score": 1.4,
+    "correct_count": 3,
+    "total_questions": 22,
+    "details": [
+      {
+        "question_id": "1",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "2",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "3",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "4",
+        "user_answer": "A",
+        "correct_answer": "C",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "5",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "6",
+        "user_answer": "A",
+        "correct_answer": "C",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "7",
+        "user_answer": "A",
+        "correct_answer": "D",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "8",
+        "user_answer": "A",
+        "correct_answer": "C",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "9",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "10",
+        "user_answer": "A",
+        "correct_answer": "A",
+        "is_correct": true,
+        "score": 1.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "11",
+        "user_answer": "A",
+        "correct_answer": "C",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "12",
+        "user_answer": "A",
+        "correct_answer": "A",
+        "is_correct": true,
+        "score": 1.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "13",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "14",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "15",
+        "user_answer": "A",
+        "correct_answer": "C",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "16",
+        "user_answer": "A",
+        "correct_answer": "A",
+        "is_correct": true,
+        "score": 1.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "17",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "18",
+        "user_answer": "A",
+        "correct_answer": "C",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "19",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "20",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "21",
+        "user_answer": {
+          "type": "essay",
+          "essay_answer": "Internet là mạng máy tính toàn cầu, kết nối hàng tỷ thiết bị trên khắp thế giới, cho phép con người trao đổi thông tin, chia sẻ dữ liệu và giao tiếp với nhau một cách nhanh chóng.\n\nHai lợi ích của Internet trong học tập:\n\nTra cứu tài liệu dễ dàng: Học sinh có thể tìm kiếm sách, bài giảng, video học tập, đề thi… giúp mở rộng kiến thức và tự học hiệu quả.\n\nHọc tập trực tuyến: Internet cho phép tham gia các lớp học online, học qua video, làm bài kiểm tra và trao đổi với giáo viên, bạn bè mọi lúc, mọi nơi."
+        },
+        "correct_answer": "",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "essay"
+      },
+      {
+        "question_id": "22",
+        "user_answer": {
+          "type": "essay",
+          "essay_answer": "Thuật toán tính tổng hai số a và b (bằng lời):\n\nBắt đầu.\n\nNhập hai số \n𝑎\na và \n𝑏\nb từ bàn phím.\n\nTính tổng \n𝑆\n=\n𝑎\n+\n𝑏\nS=a+b.\n\nXuất kết quả \n𝑆\nS ra màn hình.\n\nKết thúc."
+        },
+        "correct_answer": "",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "essay"
+      }
+    ],
+    "submitted_at": "2026-01-19T21:33:39.219259"
+  },
+  {
+    "id": "result_6_exam_6_f22278_966c0d",
+    "user_id": "6",
+    "username": "test1",
+    "grade": "6",
+    "exam_id": "exam_6_f22278",
+    "exam_title": "test",
+    "answers": {
+      "1": "A",
+      "2": "A",
+      "3": "A",
+      "4": "A",
+      "5": "A",
+      "6": "A",
+      "7": "A",
+      "8": "A",
+      "9": "A",
+      "10": "A",
+      "11": "A",
+      "12": "A",
+      "13": "A",
+      "14": "A",
+      "15": "A",
+      "16": "A",
+      "17": "A",
+      "18": "A",
+      "19": "A",
+      "20": "A",
+      "21": {
+        "type": "essay",
+        "essay_answer": "Internet là mạng máy tính toàn cầu, kết nối hàng tỷ thiết bị trên khắp thế giới, cho phép con người trao đổi thông tin, chia sẻ dữ liệu và giao tiếp với nhau một cách nhanh chóng.\n\nHai lợi ích của Internet trong học tập:\n\nTra cứu tài liệu dễ dàng: Học sinh có thể tìm kiếm sách, bài giảng, video học tập, đề thi… giúp mở rộng kiến thức và tự học hiệu quả.\n\nHọc tập trực tuyến: Internet cho phép tham gia các lớp học online, học qua video, làm bài kiểm tra và trao đổi với giáo viên, bạn bè mọi lúc, mọi nơi."
+      },
+      "22": {
+        "type": "essay",
+        "essay_answer": "Thuật toán tính tổng hai số a và b (bằng lời):\n\nBắt đầu.\n\nNhập hai số \n𝑎\na và \n𝑏\nb từ bàn phím.\n\nTính tổng \n𝑆\n=\n𝑎\n+\n𝑏\nS=a+b.\n\nXuất kết quả \n𝑆\nS ra màn hình.\n\nKết thúc."
+      }
+    },
+    "score": 1.4,
+    "correct_count": 3,
+    "total_questions": 22,
+    "details": [
+      {
+        "question_id": "1",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "2",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "3",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "4",
+        "user_answer": "A",
+        "correct_answer": "C",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "5",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "6",
+        "user_answer": "A",
+        "correct_answer": "C",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "7",
+        "user_answer": "A",
+        "correct_answer": "D",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "8",
+        "user_answer": "A",
+        "correct_answer": "C",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "9",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "10",
+        "user_answer": "A",
+        "correct_answer": "A",
+        "is_correct": true,
+        "score": 1.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "11",
+        "user_answer": "A",
+        "correct_answer": "C",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "12",
+        "user_answer": "A",
+        "correct_answer": "A",
+        "is_correct": true,
+        "score": 1.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "13",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "14",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "15",
+        "user_answer": "A",
+        "correct_answer": "C",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "16",
+        "user_answer": "A",
+        "correct_answer": "A",
+        "is_correct": true,
+        "score": 1.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "17",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "18",
+        "user_answer": "A",
+        "correct_answer": "C",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "19",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "20",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "21",
+        "user_answer": {
+          "type": "essay",
+          "essay_answer": "Internet là mạng máy tính toàn cầu, kết nối hàng tỷ thiết bị trên khắp thế giới, cho phép con người trao đổi thông tin, chia sẻ dữ liệu và giao tiếp với nhau một cách nhanh chóng.\n\nHai lợi ích của Internet trong học tập:\n\nTra cứu tài liệu dễ dàng: Học sinh có thể tìm kiếm sách, bài giảng, video học tập, đề thi… giúp mở rộng kiến thức và tự học hiệu quả.\n\nHọc tập trực tuyến: Internet cho phép tham gia các lớp học online, học qua video, làm bài kiểm tra và trao đổi với giáo viên, bạn bè mọi lúc, mọi nơi."
+        },
+        "correct_answer": "",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "essay"
+      },
+      {
+        "question_id": "22",
+        "user_answer": {
+          "type": "essay",
+          "essay_answer": "Thuật toán tính tổng hai số a và b (bằng lời):\n\nBắt đầu.\n\nNhập hai số \n𝑎\na và \n𝑏\nb từ bàn phím.\n\nTính tổng \n𝑆\n=\n𝑎\n+\n𝑏\nS=a+b.\n\nXuất kết quả \n𝑆\nS ra màn hình.\n\nKết thúc."
+        },
+        "correct_answer": "",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "essay"
+      }
+    ],
+    "submitted_at": "2026-01-19T21:39:44.877500"
+  },
+  {
+    "id": "result_1_exam_7_e9c5a2_e8ec9f",
+    "user_id": "1",
+    "username": "colan",
+    "grade": "7",
+    "exam_id": "exam_7_e9c5a2",
+    "exam_title": "test",
+    "answers": {
+      "1": "A",
+      "2": "A",
+      "3": "A",
+      "4": "A",
+      "5": "A",
+      "6": "A",
+      "7": "A",
+      "8": "A",
+      "9": "A",
+      "10": "A",
+      "11": "A",
+      "12": "A",
+      "13": "A",
+      "14": "A",
+      "15": "A",
+      "16": "A",
+      "17": "A",
+      "18": "A",
+      "19": "A",
+      "20": "A",
+      "21": "A",
+      "22": "A",
+      "23": "A",
+      "24": "A",
+      "25": {
+        "type": "tl2",
+        "selected_true": [
+          "A",
+          "C"
+        ],
+        "option_states": {
+          "A": "true",
+          "B": "false",
+          "C": "true"
+        }
+      },
+      "26": {
+        "type": "tl2",
+        "selected_true": [
+          "A",
+          "C"
+        ],
+        "option_states": {
+          "A": "true",
+          "B": "false",
+          "C": "true",
+          "D": "false"
+        }
+      },
+      "27": {
+        "type": "tl2",
+        "selected_true": [
+          "A",
+          "C"
+        ],
+        "option_states": {
+          "A": "true",
+          "B": "false",
+          "C": "true",
+          "D": "false"
+        }
+      },
+      "28": {
+        "type": "tl2",
+        "selected_true": [
+          "A",
+          "C"
+        ],
+        "option_states": {
+          "A": "true",
+          "B": "false",
+          "C": "true",
+          "D": "false"
+        }
+      }
+    },
+    "score": 2.1,
+    "correct_count": 6,
+    "total_questions": 28,
+    "details": [
+      {
+        "question_id": "1",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "2",
+        "user_answer": "A",
+        "correct_answer": "A",
+        "is_correct": true,
+        "score": 1.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "3",
+        "user_answer": "A",
+        "correct_answer": "A",
+        "is_correct": true,
+        "score": 1.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "4",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "5",
+        "user_answer": "A",
+        "correct_answer": "D",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "6",
+        "user_answer": "A",
+        "correct_answer": "D",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "7",
+        "user_answer": "A",
+        "correct_answer": "C",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "8",
+        "user_answer": "A",
+        "correct_answer": "A",
+        "is_correct": true,
+        "score": 1.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "9",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "10",
+        "user_answer": "A",
+        "correct_answer": "A",
+        "is_correct": true,
+        "score": 1.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "11",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "12",
+        "user_answer": "A",
+        "correct_answer": "A",
+        "is_correct": true,
+        "score": 1.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "13",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "14",
+        "user_answer": "A",
+        "correct_answer": "C",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "15",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "16",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "17",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "18",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "19",
+        "user_answer": "A",
+        "correct_answer": "A",
+        "is_correct": true,
+        "score": 1.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "20",
+        "user_answer": "A",
+        "correct_answer": "C",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "21",
+        "user_answer": "A",
+        "correct_answer": "C",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "22",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "23",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "24",
+        "user_answer": "A",
+        "correct_answer": "D",
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl1"
+      },
+      {
+        "question_id": "25",
+        "user_answer": {
+          "type": "tl2",
+          "selected_true": [
+            "A",
+            "C"
+          ],
+          "option_states": {
+            "A": "true",
+            "B": "false",
+            "C": "true"
+          }
+        },
+        "correct_answer": [
+          "A",
+          "B",
+          "C"
+        ],
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl2"
+      },
+      {
+        "question_id": "26",
+        "user_answer": {
+          "type": "tl2",
+          "selected_true": [
+            "A",
+            "C"
+          ],
+          "option_states": {
+            "A": "true",
+            "B": "false",
+            "C": "true",
+            "D": "false"
+          }
+        },
+        "correct_answer": [
+          "A",
+          "B",
+          "C"
+        ],
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl2"
+      },
+      {
+        "question_id": "27",
+        "user_answer": {
+          "type": "tl2",
+          "selected_true": [
+            "A",
+            "C"
+          ],
+          "option_states": {
+            "A": "true",
+            "B": "false",
+            "C": "true",
+            "D": "false"
+          }
+        },
+        "correct_answer": [
+          "A",
+          "C"
+        ],
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl2"
+      },
+      {
+        "question_id": "28",
+        "user_answer": {
+          "type": "tl2",
+          "selected_true": [
+            "A",
+            "C"
+          ],
+          "option_states": {
+            "A": "true",
+            "B": "false",
+            "C": "true",
+            "D": "false"
+          }
+        },
+        "correct_answer": [
+          "A",
+          "B",
+          "D"
+        ],
+        "is_correct": false,
+        "score": 0.0,
+        "type": "tl2"
+      }
+    ],
+    "submitted_at": "2026-01-19T21:49:32.957870"
   }
 ]

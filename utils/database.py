@@ -2,7 +2,7 @@ import json
 import os
 from datetime import datetime
 
-SUPPORTED_GRADES = ['10', '11', '12', 'TN-THPT']
+SUPPORTED_GRADES = ['6', '7', '8', '9']
 
 class Database:
     def __init__(self):

@@ -1,0 +1,476 @@
+{% extends "base.html" %}
+
+{% block title %}Lớp 8 - Học Tin THCS{% endblock %}
+
+{% block content %}
+<style>
+    .grade-header {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+        padding: 4rem 0;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .grade-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" stroke="rgba(255,255,255,0.1)" stroke-width="2" fill="none"/></svg>');
+        opacity: 0.3;
+    }
+
+    .grade-header-content {
+        position: relative;
+        z-index: 1;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .grade-icon {
+        font-size: 5rem;
+        margin-bottom: 1rem;
+        filter: drop-shadow(0 4px 12px rgba(255, 255, 255, 0.3));
+    }
+
+    .grade-title {
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+    }
+
+    .grade-subtitle {
+        font-size: 1.3rem;
+        opacity: 0.95;
+    }
+
+    .content-section {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 4rem 2rem;
+    }
+
+    .section-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .section-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .section-description {
+        font-size: 1.2rem;
+        color: #4a5568;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .chapters-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+
+    .chapter-card {
+        background: white;
+        border-radius: 20px;
+        padding: 2rem;
+        box-shadow: 0 10px 40px rgba(79, 172, 254, 0.15);
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .chapter-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, #4facfe, #00f2fe);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+    }
+
+    .chapter-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 60px rgba(79, 172, 254, 0.25);
+        border-color: #4facfe;
+    }
+
+    .chapter-card:hover::before {
+        transform: scaleX(1);
+    }
+
+    .chapter-number {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #4facfe, #00f2fe);
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: white;
+        margin-bottom: 1.5rem;
+    }
+
+    .chapter-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: #2d3748;
+    }
+
+    .chapter-description {
+        color: #4a5568;
+        line-height: 1.7;
+        margin-bottom: 1.5rem;
+    }
+
+    .chapter-topics {
+        list-style: none;
+        margin-bottom: 1.5rem;
+    }
+
+    .chapter-topics li {
+        padding: 0.5rem 0;
+        color: #4a5568;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .chapter-topics li::before {
+        content: '✓';
+        color: #4facfe;
+        font-weight: 700;
+    }
+
+    .chapter-actions {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .btn-chapter {
+        flex: 1;
+        min-width: 120px;
+        padding: 0.75rem 1.5rem;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 600;
+        text-align: center;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #4facfe, #00f2fe);
+        color: white;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(79, 172, 254, 0.4);
+    }
+
+    .btn-secondary {
+        background: white;
+        color: #4facfe;
+        border: 2px solid #4facfe;
+    }
+
+    .btn-secondary:hover {
+        background: #4facfe;
+        color: white;
+    }
+
+    .learning-tips {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 20px;
+        padding: 3rem;
+        margin-top: 4rem;
+        color: white;
+    }
+
+    .tips-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .tip-item {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 1.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .tip-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .tip-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .tip-text {
+        opacity: 0.95;
+        line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+        .grade-title {
+            font-size: 2rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+        }
+
+        .chapters-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .chapter-actions {
+            flex-direction: column;
+        }
+
+        .btn-chapter {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="grade-header">
+    <div class="grade-header-content">
+        <div class="grade-icon">📊</div>
+        <h1 class="grade-title">Tin Học Lớp 8</h1>
+        <p class="grade-subtitle">Bảng tính và lập trình cơ bản</p>
+    </div>
+</div>
+
+<div class="content-section">
+    <div class="section-header">
+        <h2 class="section-title">📚 Nội dung chương trình</h2>
+        <p class="section-description">
+            Chương trình Tin học lớp 8 giúp các em làm quen với bảng tính Excel, 
+            học cách xử lý dữ liệu và bắt đầu hành trình lập trình với Scratch.
+        </p>
+    </div>
+
+    <div class="chapters-grid">
+        <div class="chapter-card">
+            <div class="chapter-number">1</div>
+            <h3 class="chapter-title">Giới thiệu Excel</h3>
+            <p class="chapter-description">Làm quen với bảng tính và các thao tác cơ bản.</p>
+            <ul class="chapter-topics">
+                <li>Giao diện Excel cơ bản</li>
+                <li>Ô, hàng, cột trong Excel</li>
+                <li>Nhập và chỉnh sửa dữ liệu</li>
+                <li>Lưu và mở file Excel</li>
+            </ul>
+            <div class="chapter-actions">
+                <a href="#" class="btn-chapter btn-primary">
+                    <i class="fas fa-book-open"></i> Học bài
+                </a>
+                <a href="#" class="btn-chapter btn-secondary">
+                    <i class="fas fa-tasks"></i> Bài tập
+                </a>
+            </div>
+        </div>
+
+        <div class="chapter-card">
+            <div class="chapter-number">2</div>
+            <h3 class="chapter-title">Công thức trong Excel</h3>
+            <p class="chapter-description">Học cách sử dụng công thức tính toán.</p>
+            <ul class="chapter-topics">
+                <li>Công thức cộng, trừ, nhân, chia</li>
+                <li>Tham chiếu ô tuyệt đối và tương đối</li>
+                <li>Hàm SUM, AVERAGE, MAX, MIN</li>
+                <li>Hàm COUNT, IF cơ bản</li>
+            </ul>
+            <div class="chapter-actions">
+                <a href="#" class="btn-chapter btn-primary">
+                    <i class="fas fa-book-open"></i> Học bài
+                </a>
+                <a href="#" class="btn-chapter btn-secondary">
+                    <i class="fas fa-tasks"></i> Bài tập
+                </a>
+            </div>
+        </div>
+
+        <div class="chapter-card">
+            <div class="chapter-number">3</div>
+            <h3 class="chapter-title">Định dạng và sắp xếp</h3>
+            <p class="chapter-description">Làm đẹp bảng tính và tổ chức dữ liệu.</p>
+            <ul class="chapter-topics">
+                <li>Định dạng ô: màu, viền, số</li>
+                <li>Sắp xếp dữ liệu tăng/giảm dần</li>
+                <li>Lọc dữ liệu (Filter)</li>
+                <li>Đóng băng dòng/cột</li>
+            </ul>
+            <div class="chapter-actions">
+                <a href="#" class="btn-chapter btn-primary">
+                    <i class="fas fa-book-open"></i> Học bài
+                </a>
+                <a href="#" class="btn-chapter btn-secondary">
+                    <i class="fas fa-tasks"></i> Bài tập
+                </a>
+            </div>
+        </div>
+
+        <div class="chapter-card">
+            <div class="chapter-number">4</div>
+            <h3 class="chapter-title">Biểu đồ trong Excel</h3>
+            <p class="chapter-description">Trực quan hóa dữ liệu với biểu đồ.</p>
+            <ul class="chapter-topics">
+                <li>Tạo biểu đồ cột, đường</li>
+                <li>Biểu đồ tròn (Pie chart)</li>
+                <li>Tùy chỉnh màu sắc và tiêu đề</li>
+                <li>Chọn loại biểu đồ phù hợp</li>
+            </ul>
+            <div class="chapter-actions">
+                <a href="#" class="btn-chapter btn-primary">
+                    <i class="fas fa-book-open"></i> Học bài
+                </a>
+                <a href="#" class="btn-chapter btn-secondary">
+                    <i class="fas fa-tasks"></i> Bài tập
+                </a>
+            </div>
+        </div>
+
+        <div class="chapter-card">
+            <div class="chapter-number">5</div>
+            <h3 class="chapter-title">Giới thiệu Scratch</h3>
+            <p class="chapter-description">Bước đầu tiên vào thế giới lập trình.</p>
+            <ul class="chapter-topics">
+                <li>Giao diện Scratch</li>
+                <li>Sprite và Stage</li>
+                <li>Khối lệnh di chuyển</li>
+                <li>Tạo chương trình đơn giản</li>
+            </ul>
+            <div class="chapter-actions">
+                <a href="#" class="btn-chapter btn-primary">
+                    <i class="fas fa-book-open"></i> Học bài
+                </a>
+                <a href="#" class="btn-chapter btn-secondary">
+                    <i class="fas fa-tasks"></i> Bài tập
+                </a>
+            </div>
+        </div>
+
+        <div class="chapter-card">
+            <div class="chapter-number">6</div>
+            <h3 class="chapter-title">Lập trình Scratch cơ bản</h3>
+            <p class="chapter-description">Học các khái niệm lập trình qua Scratch.</p>
+            <ul class="chapter-topics">
+                <li>Vòng lặp (Loop)</li>
+                <li>Điều kiện (If-else)</li>
+                <li>Biến (Variable)</li>
+                <li>Sự kiện (Event)</li>
+            </ul>
+            <div class="chapter-actions">
+                <a href="#" class="btn-chapter btn-primary">
+                    <i class="fas fa-book-open"></i> Học bài
+                </a>
+                <a href="#" class="btn-chapter btn-secondary">
+                    <i class="fas fa-tasks"></i> Bài tập
+                </a>
+            </div>
+        </div>
+
+        <div class="chapter-card">
+            <div class="chapter-number">7</div>
+            <h3 class="chapter-title">Tư duy logic và giải quyết vấn đề</h3>
+            <p class="chapter-description">Phát triển tư duy lập trình và thuật toán.</p>
+            <ul class="chapter-topics">
+                <li>Phân tích bài toán</li>
+                <li>Lưu đồ thuật toán</li>
+                <li>Debug và sửa lỗi</li>
+                <li>Tối ưu hóa giải pháp</li>
+            </ul>
+            <div class="chapter-actions">
+                <a href="#" class="btn-chapter btn-primary">
+                    <i class="fas fa-book-open"></i> Học bài
+                </a>
+                <a href="#" class="btn-chapter btn-secondary">
+                    <i class="fas fa-tasks"></i> Bài tập
+                </a>
+            </div>
+        </div>
+
+        <div class="chapter-card">
+            <div class="chapter-number">8</div>
+            <h3 class="chapter-title">Dự án và ôn tập</h3>
+            <p class="chapter-description">Áp dụng kiến thức vào dự án thực tế.</p>
+            <ul class="chapter-topics">
+                <li>Dự án: Bảng điểm học sinh</li>
+                <li>Dự án: Game Scratch đơn giản</li>
+                <li>Ôn tập Excel và Scratch</li>
+                <li>Kiểm tra cuối khóa</li>
+            </ul>
+            <div class="chapter-actions">
+                <a href="#" class="btn-chapter btn-primary">
+                    <i class="fas fa-book-open"></i> Học bài
+                </a>
+                <a href="#" class="btn-chapter btn-secondary">
+                    <i class="fas fa-tasks"></i> Bài tập
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="learning-tips">
+        <h2 class="section-title" style="color: white; -webkit-text-fill-color: white;"> Mẹo học tập hiệu quả</h2>
+        <div class="tips-grid">
+            <div class="tip-item">
+                <div class="tip-icon"></div>
+                <div class="tip-title">Thực hành Excel</div>
+                <p class="tip-text">Áp dụng Excel vào quản lý học tập cá nhân</p>
+            </div>
+            <div class="tip-item">
+                <div class="tip-icon"></div>
+                <div class="tip-title">Sáng tạo với Scratch</div>
+                <p class="tip-text">Tạo các game và animation của riêng bạn</p>
+            </div>
+            <div class="tip-item">
+                <div class="tip-icon"></div>
+                <div class="tip-title">Tư duy logic</div>
+                <p class="tip-text">Phân tích vấn đề thành các bước nhỏ</p>
+            </div>
+            <div class="tip-item">
+                <div class="tip-icon"></div>
+                <div class="tip-title">Debug thường xuyên</div>
+                <p class="tip-text">Học cách tìm và sửa lỗi trong code</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -38,5 +38,13 @@
     "email": "dmkasnfoa@gmail.com",
     "role": "student",
     "created_at": "2025-10-23T11:04:27.985261"
+  },
+  {
+    "id": "6",
+    "username": "test1",
+    "password": "scrypt:32768:8:1$1i3OzABkTLdDFbIY$16e66e25d332e3202611a804eac09086ad2f98e7816dcede9b73efbd10e35618a5df1b3b220659f833c41c3000db29245c792a3235d5549d2fb3f9eacdc4ff15",
+    "email": "test@gmail.com",
+    "role": "student",
+    "created_at": "2026-01-19T20:44:18.104785"
   }
 ]

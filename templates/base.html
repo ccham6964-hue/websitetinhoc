@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Học Tin THPT{% endblock %}</title>
+    <title>{% block title %}Học Tin THCS{% endblock %}</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -474,7 +474,7 @@
         <div class="container">
             <div class="logo">
                 <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo Tin Học THPT">
-                <span>Tin Học THPT</span>
+                <span>Tin Học THCS</span>
             </div>
             
             <div class="hamburger" id="hamburger">
@@ -490,9 +490,10 @@
                     <li class="dropdown">
                         <a>Học tập</a>
                         <div class="dropdown-menu-custom">
-                            <a href="{{ url_for('lop10') }}">Lớp 10</a>
-                            <a href="{{ url_for('lop11') }}">Lớp 11</a>
-                            <a href="{{ url_for('lop12') }}">Lớp 12</a>
+                            <a href="{{ url_for('lop6') }}">Lớp 6</a>
+                            <a href="{{ url_for('lop7') }}">Lớp 7</a>
+                            <a href="{{ url_for('lop8') }}">Lớp 8</a>
+                            <a href="{{ url_for('lop9') }}">Lớp 9</a>
                         </div>
                     </li>
                     
@@ -553,7 +554,7 @@
 
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 Học Tin THPT - Hệ thống học tập trực tuyến</p>
+            <p>&copy; 2025 Học Tin THCS - Hệ thống học tập trực tuyến</p>
         </div>
     </footer>
 

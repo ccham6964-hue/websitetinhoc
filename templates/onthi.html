@@ -1,0 +1,444 @@
+{% extends "base.html" %}
+
+{% block title %}Tài liệu ôn thi - Học Tin THCS{% endblock %}
+
+{% block content %}
+<style>
+    .page-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        color: white;
+        padding: 4rem 0;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .page-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" stroke="rgba(255,255,255,0.1)" stroke-width="2" fill="none"/></svg>');
+        opacity: 0.3;
+    }
+
+    .page-header-content {
+        position: relative;
+        z-index: 1;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .page-icon {
+        font-size: 5rem;
+        margin-bottom: 1rem;
+        filter: drop-shadow(0 4px 12px rgba(255, 255, 255, 0.3));
+    }
+
+    .page-title {
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+    }
+
+    .page-subtitle {
+        font-size: 1.3rem;
+        opacity: 0.95;
+    }
+
+    .content-section {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 4rem 2rem;
+    }
+
+    .section-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .section-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .section-description {
+        font-size: 1.2rem;
+        color: #4a5568;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .resources-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+
+    .resource-card {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 40px rgba(102, 126, 234, 0.15);
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+
+    .resource-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 60px rgba(102, 126, 234, 0.25);
+        border-color: #667eea;
+    }
+
+    .resource-header {
+        padding: 2rem;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        text-align: center;
+    }
+
+    .resource-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+
+    .resource-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .resource-subtitle {
+        opacity: 0.95;
+    }
+
+    .resource-body {
+        padding: 2rem;
+    }
+
+    .resource-items {
+        list-style: none;
+        margin-bottom: 1.5rem;
+    }
+
+    .resource-items li {
+        padding: 0.75rem 0;
+        color: #4a5568;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .resource-items li:last-child {
+        border-bottom: none;
+    }
+
+    .resource-items li::before {
+        content: '📄';
+        font-size: 1.2rem;
+    }
+
+    .btn-resource {
+        width: 100%;
+        padding: 1rem;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .btn-resource:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .exam-types {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+
+    .exam-type-card {
+        background: white;
+        border-radius: 20px;
+        padding: 2rem;
+        text-align: center;
+        box-shadow: 0 10px 40px rgba(102, 126, 234, 0.15);
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .exam-type-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 60px rgba(102, 126, 234, 0.25);
+    }
+
+    .exam-type-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        margin: 0 auto 1.5rem;
+        color: white;
+    }
+
+    .exam-type-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: #2d3748;
+    }
+
+    .exam-type-desc {
+        color: #4a5568;
+        font-size: 0.95rem;
+    }
+
+    .tips-section {
+        background: linear-gradient(135deg, #f093fb 0%, #f5af19 100%);
+        border-radius: 20px;
+        padding: 3rem;
+        margin-top: 4rem;
+        color: white;
+    }
+
+    .tips-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .tip-card {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 1.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .tip-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .tip-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .tip-text {
+        opacity: 0.95;
+        line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+        .page-title {
+            font-size: 2rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+        }
+
+        .resources-grid,
+        .exam-types {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="page-header">
+    <div class="page-header-content">
+        <div class="page-icon">📚</div>
+        <h1 class="page-title">Tài liệu ôn thi</h1>
+        <p class="page-subtitle">Tổng hợp tài liệu và đề thi giúp bạn ôn luyện hiệu quả</p>
+    </div>
+</div>
+
+<div class="content-section">
+    <div class="section-header">
+        <h2 class="section-title">🎯 Các loại đề thi</h2>
+        <p class="section-description">
+            Lựa chọn loại đề thi phù hợp để luyện tập
+        </p>
+    </div>
+
+    <div class="exam-types">
+        <div class="exam-type-card">
+            <div class="exam-type-icon">📝</div>
+            <h3 class="exam-type-title">Kiểm tra 15 phút</h3>
+            <p class="exam-type-desc">Đề thi ngắn kiểm tra kiến thức từng chương</p>
+        </div>
+
+        <div class="exam-type-card">
+            <div class="exam-type-icon">📋</div>
+            <h3 class="exam-type-title">Kiểm tra 1 tiết</h3>
+            <p class="exam-type-desc">Đề thi trắc nghiệm và tự luận</p>
+        </div>
+
+        <div class="exam-type-card">
+            <div class="exam-type-icon">📖</div>
+            <h3 class="exam-type-title">Thi học kỳ</h3>
+            <p class="exam-type-desc">Đề thi tổng hợp cuối học kỳ</p>
+        </div>
+
+        <div class="exam-type-card">
+            <div class="exam-type-icon">🎓</div>
+            <h3 class="exam-type-title">Thi vào lớp 10</h3>
+            <p class="exam-type-desc">Đề thi tuyển sinh và đề tham khảo</p>
+        </div>
+    </div>
+
+    <div class="section-header" style="margin-top: 5rem;">
+        <h2 class="section-title">📚 Tài liệu theo lớp</h2>
+        <p class="section-description">
+            Tài liệu ôn tập được phân loại theo từng khối lớp
+        </p>
+    </div>
+
+    <div class="resources-grid">
+        <div class="resource-card">
+            <div class="resource-header">
+                <div class="resource-icon">📱</div>
+                <h3 class="resource-title">Lớp 6</h3>
+                <p class="resource-subtitle">Cơ bản về máy tính</p>
+            </div>
+            <div class="resource-body">
+                <ul class="resource-items">
+                    <li>Lý thuyết tổng hợp lớp 6</li>
+                    <li>Đề kiểm tra 15 phút</li>
+                    <li>Đề kiểm tra 1 tiết</li>
+                    <li>Đề thi học kỳ I</li>
+                    <li>Đề thi học kỳ II</li>
+                </ul>
+                <a href="#" class="btn-resource">
+                    <i class="fas fa-download"></i> Tải tài liệu
+                </a>
+            </div>
+        </div>
+
+        <div class="resource-card">
+            <div class="resource-header" style="background: linear-gradient(135deg, #f093fb, #f5af19);">
+                <div class="resource-icon">💻</div>
+                <h3 class="resource-title">Lớp 7</h3>
+                <p class="resource-subtitle">Phần mềm ứng dụng</p>
+            </div>
+            <div class="resource-body">
+                <ul class="resource-items">
+                    <li>Lý thuyết Word & PowerPoint</li>
+                    <li>Bài tập thực hành</li>
+                    <li>Đề kiểm tra 1 tiết</li>
+                    <li>Đề thi học kỳ I</li>
+                    <li>Đề thi học kỳ II</li>
+                </ul>
+                <a href="#" class="btn-resource" style="background: linear-gradient(135deg, #f093fb, #f5af19);">
+                    <i class="fas fa-download"></i> Tải tài liệu
+                </a>
+            </div>
+        </div>
+
+        <div class="resource-card">
+            <div class="resource-header" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+                <div class="resource-icon">📊</div>
+                <h3 class="resource-title">Lớp 8</h3>
+                <p class="resource-subtitle">Excel & Scratch</p>
+            </div>
+            <div class="resource-body">
+                <ul class="resource-items">
+                    <li>Lý thuyết Excel nâng cao</li>
+                    <li>Bài tập Scratch</li>
+                    <li>Đề kiểm tra 1 tiết</li>
+                    <li>Đề thi học kỳ I</li>
+                    <li>Đề thi học kỳ II</li>
+                </ul>
+                <a href="#" class="btn-resource" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+                    <i class="fas fa-download"></i> Tải tài liệu
+                </a>
+            </div>
+        </div>
+
+        <div class="resource-card">
+            <div class="resource-header" style="background: linear-gradient(135deg, #43e97b, #38f9d7);">
+                <div class="resource-icon">🎮</div>
+                <h3 class="resource-title">Lớp 9</h3>
+                <p class="resource-subtitle">Python & Ôn thi vào 10</p>
+            </div>
+            <div class="resource-body">
+                <ul class="resource-items">
+                    <li>Lý thuyết Python cơ bản</li>
+                    <li>Đề thi học kỳ</li>
+                    <li>Đề thi thử vào lớp 10</li>
+                    <li>Đề thi tuyển sinh các tỉnh</li>
+                    <li>Hướng dẫn giải chi tiết</li>
+                </ul>
+                <a href="#" class="btn-resource" style="background: linear-gradient(135deg, #43e97b, #38f9d7);">
+                    <i class="fas fa-download"></i> Tải tài liệu
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="tips-section">
+        <h2 class="section-title" style="color: white; -webkit-text-fill-color: white;"> Bí quyết ôn thi hiệu quả</h2>
+        <div class="tips-grid">
+            <div class="tip-card">
+                <div class="tip-icon"></div>
+                <div class="tip-title">Lập kế hoạch ôn tập</div>
+                <p class="tip-text">Chia nhỏ kiến thức và học đều đặn mỗi ngày</p>
+            </div>
+            <div class="tip-card">
+                <div class="tip-icon"></div>
+                <div class="tip-title">Làm đề thi thử</div>
+                <p class="tip-text">Luyện tập với đề thi để quen với cấu trúc</p>
+            </div>
+            <div class="tip-card">
+                <div class="tip-icon"></div>
+                <div class="tip-title">Ghi chép tóm tắt</div>
+                <p class="tip-text">Tạo sơ đồ tư duy và flashcard cho kiến thức quan trọng</p>
+            </div>
+            <div class="tip-card">
+                <div class="tip-icon"></div>
+                <div class="tip-title">Quản lý thời gian</div>
+                <p class="tip-text">Luyện làm bài trong thời gian quy định</p>
+            </div>
+            <div class="tip-card">
+                <div class="tip-icon"></div>
+                <div class="tip-title">Học nhóm</div>
+                <p class="tip-text">Thảo luận và giải đáp thắc mắc cùng bạn bè</p>
+            </div>
+            <div class="tip-card">
+                <div class="tip-icon"></div>
+                <div class="tip-title">Giữ sức khỏe</div>
+                <p class="tip-text">Nghỉ ngơi đầy đủ và ăn uống điều độ</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

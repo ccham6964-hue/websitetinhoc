@@ -1,0 +1,423 @@
+{
+  "exams": [
+    {
+      "id": "exam_7_e9c5a2",
+      "title": "test",
+      "description": "11",
+      "time_limit": 15,
+      "questions": [
+        {
+          "id": 1,
+          "number": 1,
+          "question": "Ví dụ nào sau đây minh họa cho khả năng suy luận của trí tuệ nhân tạo?",
+          "options": {
+            "A": "Phần mềm dịch tự động văn bản đa ngôn ngữ.",
+            "B": "Hệ chuyên gia sử dụng luật “nếu… thì…” để chẩn đoán bệnh.",
+            "C": "Xe tự lái nhận biết tín hiệu đèn giao thông và điều chỉnh tốc độ.",
+            "D": "Ứng dụng gợi ý sản phẩm dựa trên lịch sử mua sắm trực tuyến."
+          },
+          "correct_answer": "B",
+          "explanation": "",
+          "type": "tl1"
+        },
+        {
+          "id": 2,
+          "number": 2,
+          "question": "Trường hợp nào dưới đây là ví dụ cho khả năng nhận thức của trí tuệ nhân tạo?",
+          "options": {
+            "A": "Xe tự lái nhận biết vật cản và điều chỉnh hướng di chuyển.",
+            "B": "Phần mềm phân tích dữ liệu và đưa ra báo cáo thống kê.",
+            "C": "Trợ lí ảo trả lời các câu hỏi bằng ngôn ngữ tự nhiên.",
+            "D": "Hệ thống máy tính quản lí và lưu trữ thông tin bệnh án."
+          },
+          "correct_answer": "A",
+          "explanation": "",
+          "type": "tl1"
+        },
+        {
+          "id": 3,
+          "number": 3,
+          "question": "Ứng dụng nào sau đây minh họa cho khả năng hiểu ngôn ngữ tự nhiên của trí tuệ nhân tạo?",
+          "options": {
+            "A": "Trợ lí ảo trên điện thoại có thể giao tiếp bằng lời nói với người dùng.",
+            "B": "Xe tự lái nhận diện làn đường và tín hiệu đèn giao thông.",
+            "C": "Phần mềm nhận diện khuôn mặt trong hệ thống an ninh.",
+            "D": "Ứng dụng phân loại sản phẩm trên dây chuyền sản xuất."
+          },
+          "correct_answer": "A",
+          "explanation": "",
+          "type": "tl1"
+        },
+        {
+          "id": 4,
+          "number": 4,
+          "question": "Đặc điểm nào dưới đây đúng với trí tuệ nhân tạo hẹp (ANI)?",
+          "options": {
+            "A": "Giải quyết công việc trí tuệ đa lĩnh vực tương tự con người.",
+            "B": "Được xây dựng để xử lí một nhiệm vụ trong một phạm vi cụ thể.",
+            "C": "Có khả năng hành động có ý thức không phụ thuộc con người.",
+            "D": "Có thể thay thế toàn bộ công việc trí tuệ của con người."
+          },
+          "correct_answer": "B",
+          "explanation": "",
+          "type": "tl1"
+        },
+        {
+          "id": 5,
+          "number": 5,
+          "question": "Khả năng hiểu ngôn ngữ của Trí tuệ nhân tạo không thể hiện trong hệ thống nào sau đây?",
+          "options": {
+            "A": "Trợ lý ảo trên xe ô tô.",
+            "B": "Tổng đài tự động hỏi đáp.",
+            "C": "Trợ giúp soạn thảo văn bản.",
+            "D": "Nhận diện khuôn mặt."
+          },
+          "correct_answer": "D",
+          "explanation": "",
+          "type": "tl1"
+        },
+        {
+          "id": 6,
+          "number": 6,
+          "question": "Trong lĩnh vực y tế, Trí tuệ nhân tạo được ứng dụng phổ biến trong hệ thống nào sau đây?",
+          "options": {
+            "A": "Tự động hóa hoàn toàn việc kê đơn thuốc cho bệnh nhân.",
+            "B": "In phiếu thứ tự khám bệnh cho bệnh nhân tại các phòng khám.",
+            "C": "Tự động hóa hoàn toàn việc thẩm định các loại thuốc mới.",
+            "D": "Hỗ trợ bác sĩ chẩn đoán bệnh dựa trên hình ảnh X-quang."
+          },
+          "correct_answer": "D",
+          "explanation": "",
+          "type": "tl1"
+        },
+        {
+          "id": 7,
+          "number": 7,
+          "question": "Lĩnh vực tin học nào sau đây tập trung vào việc nghiên cứu và phát triển các phần mềm làm cho máy tính ngày càng thông minh như con người?",
+          "options": {
+            "A": "Mạng máy tính.",
+            "B": "An toàn thông tin.",
+            "C": "Trí tuệ nhân tạo.",
+            "D": "Internet vạn vật."
+          },
+          "correct_answer": "C",
+          "explanation": "",
+          "type": "tl1"
+        },
+        {
+          "id": 8,
+          "number": 8,
+          "question": "Lợi ích nào sau đây của AI trong y tế là chính xác?",
+          "options": {
+            "A": "AI hỗ trợ bác sĩ rút ngắn thời gian chẩn đoán và định hướng điều trị.",
+            "B": "AI giúp loại bỏ hoàn toàn các loại bệnh hiểm nghèo trong cộng đồng.",
+            "C": "AI thay thế đội ngũ y bác sĩ trong toàn bộ hoạt động khám chữa bệnh.",
+            "D": "AI đảm bảo mọi bệnh nhân đều được điều trị với chi phí thấp nhất."
+          },
+          "correct_answer": "A",
+          "explanation": "",
+          "type": "tl1"
+        },
+        {
+          "id": 9,
+          "number": 9,
+          "question": "[TH] Ứng dụng nào sau đây thể hiện khả năng giải quyết vấn đề của AI?",
+          "options": {
+            "A": "Phần mềm nhận diện chữ viết tay trong văn bản số.",
+            "B": "Hệ thống tối ưu lịch học của toàn trường dựa trên ràng buộc.",
+            "C": "Hệ chuyên gia đưa ra chẩn đoán bệnh dựa trên triệu chứng.",
+            "D": "Xe tự lái nhận biết tín hiệu và điều khiển phương tiện."
+          },
+          "correct_answer": "B",
+          "explanation": "",
+          "type": "tl1"
+        },
+        {
+          "id": 10,
+          "number": 10,
+          "question": "Tình huống nào sau đây thể hiện sự khác biệt rõ rệt giữa AI hẹp và AI rộng?",
+          "options": {
+            "A": "Hệ thống nhận diện biển báo chỉ hoạt động trong lĩnh vực giao thông.",
+            "B": "Máy tính có tốc độ xử lí nhanh nhờ phần cứng tiên tiến.",
+            "C": "Phần mềm dịch tự động từ tiếng Anh sang tiếng Việt.",
+            "D": "Công cụ kiểm tra chính tả trong quá trình soạn văn bản."
+          },
+          "correct_answer": "A",
+          "explanation": "",
+          "type": "tl1"
+        },
+        {
+          "id": 11,
+          "number": 11,
+          "question": "Trong sản xuất, AI thường được áp dụng để thực hiện công việc nào?",
+          "options": {
+            "A": "Quản lí tài chính và kế hoạch phát triển của doanh nghiệp.",
+            "B": "Phân loại sản phẩm và tối ưu quản lí chuỗi cung ứng.",
+            "C": "Xử lí văn bản và tài liệu hành chính của công ty.",
+            "D": "Giao tiếp với khách hàng bằng hệ thống chatbot tự động."
+          },
+          "correct_answer": "B",
+          "explanation": "",
+          "type": "tl1"
+        },
+        {
+          "id": 12,
+          "number": 12,
+          "question": "AI có thể thực hiện nhiệm vụ nào sau đây thông qua khả năng hiểu ngôn ngữ?",
+          "options": {
+            "A": "Đọc văn bản và dịch thuật.",
+            "B": "Dự đoán thời tiết.",
+            "C": "Nhận dạng hình ảnh.",
+            "D": "Xử lý hóa đơn."
+          },
+          "correct_answer": "A",
+          "explanation": "",
+          "type": "tl1"
+        },
+        {
+          "id": 13,
+          "number": 13,
+          "question": "Hệ chuyên gia MYCIN là một ứng dụng của AI trong lĩnh vực nào sau đây?",
+          "options": {
+            "A": "Giáo dục.",
+            "B": "Y học.",
+            "C": "Thương mại điện tử.",
+            "D": "Giao thông."
+          },
+          "correct_answer": "B",
+          "explanation": "",
+          "type": "tl1"
+        },
+        {
+          "id": 14,
+          "number": 14,
+          "question": "Robot Asimo thể hiện đặc trưng nào của AI qua khả năng chào hỏi bằng ngôn ngữ tự nhiên?",
+          "options": {
+            "A": "Khả năng học.",
+            "B": "Khả năng nhận thức.",
+            "C": "Khả năng hiểu ngôn ngữ.",
+            "D": "Khả năng giải quyết vấn đề."
+          },
+          "correct_answer": "C",
+          "explanation": "",
+          "type": "tl1"
+        },
+        {
+          "id": 15,
+          "number": 15,
+          "question": "Google dịch là một ứng dụng AI trong lĩnh vực nào sau đây?",
+          "options": {
+            "A": "Dự báo thời tiết.",
+            "B": "Xử lý ngôn ngữ tự nhiên.",
+            "C": "Hệ thống chuyên gia.",
+            "D": "Tự động hóa công nghiệp."
+          },
+          "correct_answer": "B",
+          "explanation": "",
+          "type": "tl1"
+        },
+        {
+          "id": 16,
+          "number": 16,
+          "question": "Phát biểu nào dưới đây phản ánh đúng nguy cơ của AI với quyền riêng tư?",
+          "options": {
+            "A": "AI không bao giờ thu thập dữ liệu cá nhân của người dùng.",
+            "B": "AI có thể bị lợi dụng để khai thác dữ liệu cá nhân trái phép.",
+            "C": "AI chỉ xử lí dữ liệu công khai nên an toàn cho người dùng.",
+            "D": "AI ngăn chặn hoàn toàn mọi hành vi xâm phạm thông tin cá nhân."
+          },
+          "correct_answer": "B",
+          "explanation": "",
+          "type": "tl1"
+        },
+        {
+          "id": 17,
+          "number": 17,
+          "question": "Cách ứng xử nào sau đây phù hợp đối với kết quả được tạo ra bởi Trí tuệ nhân tạo?",
+          "options": {
+            "A": "Tin tưởng hoàn toàn vào tính chính xác và khách quan.",
+            "B": "Xem xét một cách thận trọng và có trách nhiệm.",
+            "C": "Giữ nguyên để làm sản phẩm học tập và nghiên cứu.",
+            "D": "Chia sẻ ra cộng đồng mà không cần kiểm chứng."
+          },
+          "correct_answer": "B",
+          "explanation": "",
+          "type": "tl1"
+        },
+        {
+          "id": 18,
+          "number": 18,
+          "question": "Phát biểu nào dưới đây đúng khi nói về khái niệm trí tuệ nhân tạo (AI)?",
+          "options": {
+            "A": "Khả năng của máy tính trong việc lưu trữ và quản lí lượng dữ liệu lớn.",
+            "B": "Khả năng của máy tính trong việc thực hiện các công việc trí tuệ của con người.",
+            "C": "Khả năng của con người trong việc xử lí thông tin nhanh và chính xác hơn máy tính.",
+            "D": "Khả năng của máy tính trong việc kết nối và trao đổi dữ liệu trên Internet."
+          },
+          "correct_answer": "B",
+          "explanation": "",
+          "type": "tl1"
+        },
+        {
+          "id": 19,
+          "number": 19,
+          "question": "Đặc trưng nào dưới đây thể hiện rõ bản chất của trí tuệ nhân tạo?",
+          "options": {
+            "A": "Khả năng học hỏi và rút ra tri thức từ dữ liệu.",
+            "B": "Khả năng xử lí thông tin nhanh nhờ phần cứng mạnh.",
+            "C": "Khả năng kết nối và chia sẻ thông tin qua mạng máy tính.",
+            "D": "Khả năng lưu giữ và quản lí các tệp dữ liệu lớn."
+          },
+          "correct_answer": "A",
+          "explanation": "",
+          "type": "tl1"
+        },
+        {
+          "id": 20,
+          "number": 20,
+          "question": "Lĩnh vực nào dưới đây là 1 trong 4 lĩnh vực nghiên cứu chính của trí tuệ nhân tạo?",
+          "options": {
+            "A": "Hệ điều hành máy tính phục vụ quản lí tài nguyên.",
+            "B": "Cơ sở dữ liệu phục vụ lưu trữ và truy vấn thông tin.",
+            "C": "Học máy với các mô hình tự động rút ra tri thức từ dữ liệu.",
+            "D": "Điện toán đám mây hỗ trợ dịch vụ lưu trữ trực tuyến."
+          },
+          "correct_answer": "C",
+          "explanation": "",
+          "type": "tl1"
+        },
+        {
+          "id": 21,
+          "number": 21,
+          "question": "Trong các lĩnh vực sau, lĩnh vực nào không thuộc phạm vi nghiên cứu của trí tuệ nhân tạo?",
+          "options": {
+            "A": "Thị giác máy tính (Computer Vision).",
+            "B": "Xử lý ngôn ngữ tự nhiên (Natural Language Processing).",
+            "C": "Bảo trì phần cứng máy tính.",
+            "D": "Lập luận và suy diễn tự động."
+          },
+          "correct_answer": "C",
+          "explanation": "",
+          "type": "tl1"
+        },
+        {
+          "id": 22,
+          "number": 22,
+          "question": "Một trong những ứng dụng phổ biến của học máy (Machine Learning) là:",
+          "options": {
+            "A": "Tăng tốc độ xử lý CPU.",
+            "B": "Tự động phân loại hình ảnh và nhận dạng khuôn mặt.",
+            "C": "Nén dữ liệu trong ổ đĩa.",
+            "D": "Quản lý bộ nhớ của hệ điều hành."
+          },
+          "correct_answer": "B",
+          "explanation": "",
+          "type": "tl1"
+        },
+        {
+          "id": 23,
+          "number": 23,
+          "question": "Trong trí tuệ nhân tạo, học tăng cường (Reinforcement Learning) được sử dụng để:",
+          "options": {
+            "A": "Dạy máy tính học từ các ví dụ đã gán nhãn sẵn.",
+            "B": "Huấn luyện hệ thống thông qua phần thưởng và hình phạt để đạt mục tiêu tối ưu.",
+            "C": "Lưu trữ và xử lý dữ liệu lớn.",
+            "D": "Dịch ngôn ngữ tự nhiên sang mã máy."
+          },
+          "correct_answer": "B",
+          "explanation": "",
+          "type": "tl1"
+        },
+        {
+          "id": 24,
+          "number": 24,
+          "question": "Khi một hệ thống AI có khả năng tự cải thiện mô hình dự đoán dựa trên dữ liệu mới, điều này thể hiện đặc trưng nào của trí tuệ nhân tạo?",
+          "options": {
+            "A": "Khả năng tự học và thích nghi.",
+            "B": "Khả năng lưu trữ dữ liệu lớn.",
+            "C": "Tốc độ xử lý của phần cứng cao.",
+            "D": "Giao diện người dùng thân thiện."
+          },
+          "correct_answer": "D",
+          "explanation": "",
+          "type": "tl1"
+        },
+        {
+          "id": 25,
+          "number": 25,
+          "question": "An được giao nhiệm vụ tìm hiểu về các ứng dụng của trí tuệ nhân tạo trong đời sống. An tìm thấy một số ví dụ như xe tự lái, robot phẫu thuật, hệ thống nhận dạng khuôn mặt. An muốn biết những ứng dụng này có thực sự là trí tuệ nhân tạo hay không. Em hãy giúp An giải đáp thắc mắc này nhé.",
+          "options": {
+            "A": "Xe tự lái là một ứng dụng của trí tuệ nhân tạo.",
+            "B": "Robot phẫu thuật là một ứng dụng của trí tuệ nhân tạo.",
+            "C": "Hệ thống nhận dạng khuôn mặt là một ứng dụng của trí tuệ nhân tạo.",
+            "D": "Tất cả các hệ thống tự động hóa đều được coi là trí tuệ nhân tạo."
+          },
+          "correct_answer": [
+            "A",
+            "B",
+            "C"
+          ],
+          "explanation": "",
+          "type": "tl2"
+        },
+        {
+          "id": 26,
+          "number": 26,
+          "question": "Bình đang tìm hiểu về các đặc trưng của trí tuệ nhân tạo. Em ấy đọc được thông tin rằng trí tuệ nhân tạo có khả năng học, suy luận, nhận thức, hiểu ngôn ngữ và giải quyết vấn đề. Bình muốn biết những khả năng này được thể hiện như thế nào trong các ứng dụng thực tế. Hãy giúp Bình xác định xem những nhận định sau đây đúng hay sai nhé.",
+          "options": {
+            "A": "Hệ thống khuyến nghị sản phẩm trên các trang thương mại điện tử là một ví dụ về khả năng học của trí tuệ nhân tạo.",
+            "B": "Trợ lý ảo như Google Assistant, Siri có khả năng hiểu ngôn ngữ tự nhiên của con người.",
+            "C": "Máy tính điều khiển xe tự lái sử dụng các cảm biến để nhận thức môi trường xung quanh.",
+            "D": "Hệ thống dự báo thời tiết sử dụng các thuật toán AI để phân tích dữ liệu và đưa ra dự đoán."
+          },
+          "correct_answer": [
+            "A",
+            "B",
+            "C"
+          ],
+          "explanation": "",
+          "type": "tl2"
+        },
+        {
+          "id": 27,
+          "number": 27,
+          "question": "Trí tuệ nhân tạo (AI) là một ngành khoa học và công nghệ tập trung vào việc tạo ra các hệ thống thông minh có khả năng thực hiện các nhiệm vụ đòi hỏi trí thông minh của con người. Sự phát triển của AI đã mang lại nhiều ứng dụng cách mạng trong đời sống và khoa học. An và Hải đang tranh luận với nhau về ngành khoa học này. An đưa ra các nhận định sau đây?",
+          "options": {
+            "A": "Một trong những mục tiêu chính của AI là chế tạo ra các hệ thống có khả năng mô phỏng, bắt chước các khả năng tư duy và hành vi của con người.",
+            "B": "Học máy (Machine Learning) là lĩnh vực duy nhất và cốt lõi tạo nên Trí tuệ nhân tạo, và không bao gồm các lĩnh vực khác như Xử lí ngôn ngữ tự nhiên (NLP) hay Thị giác máy tính (Computer Vision).",
+            "C": "Trong lĩnh vực y tế, các hệ thống AI có khả năng hỗ trợ chẩn đoán bệnh chính xác và nhanh chóng hơn so với bác sĩ, chủ yếu nhờ vào khả năng phân tích, xử lý khối lượng lớn dữ liệu y khoa từ nhiều nguồn.",
+            "D": "Một phần mềm Trí tuệ nhân tạo được huấn luyện hoàn hảo để chơi cờ vây và chiến thắng tất cả các kiện tướng thế giới thì chắc chắn cũng sẽ đưa ra quyết định tối ưu trong việc dự báo và đầu tư chứng khoán."
+          },
+          "correct_answer": [
+            "A",
+            "C"
+          ],
+          "explanation": "",
+          "type": "tl2"
+        },
+        {
+          "id": 28,
+          "number": 28,
+          "question": "Cô giáo muốn giới thiệu cho học sinh về khái niệm trí tuệ nhân tạo. Cô ấy muốn giải thích cho các em hiểu sự khác biệt giữa trí tuệ nhân tạo và tự động hóa. Hãy giúp cô giáo xác định những phát biểu sau đây đúng hay sai.",
+          "options": {
+            "A": "Trí tuệ nhân tạo có khả năng thực hiện các nhiệm vụ thông minh mà trước đây chỉ con người mới làm được.",
+            "B": "Tự động hóa là khả năng của máy móc thực hiện các công việc một cách tự động.",
+            "C": "Mọi hệ thống tự động hóa đều được coi là trí tuệ nhân tạo.",
+            "D": "Trí tuệ nhân tạo có khả năng học hỏi và thích nghi với tình huống mới, trong khi tự động hóa chỉ thực hiện các thao tác lặp đi lặp lại."
+          },
+          "correct_answer": [
+            "A",
+            "B",
+            "D"
+          ],
+          "explanation": "",
+          "type": "tl2"
+        }
+      ],
+      "allow_multiple_answers": true,
+      "created_by": "1",
+      "created_by_name": "colan",
+      "created_at": "2026-01-19T21:48:07.634590"
+    }
+  ]
+}

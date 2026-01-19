@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Thêm tài liệu - Học Tin THPT{% endblock %}
+{% block title %}Thêm tài liệu - Học Tin THCS{% endblock %}
 
 {% block content %}
 <div class="container">
@@ -19,19 +19,19 @@
             <small class="form-hint">Hỗ trợ: YouTube, Google Drive, hoặc link trực tiếp</small>
         </div>
 
-        <!-- ✅ THÊM MỚI: Chọn lớp học -->
+      
         <div class="form-group">
             <label for="docGrade">Lớp học: <span class="required">*</span></label>
-            <select id="docGrade" required>
-                <option value="">Chọn lớp</option>
-                <option value="10">Lớp 10</option>
-                <option value="11">Lớp 11</option>
-                <option value="12">Lớp 12</option>
-                <option value="TN-THPT">Lớp TN-THPT</option>
+            <select id="docGrade" name="grade" required>  
+                <option value="">Chọn lớp</option>  
+                <option value="6">Lớp 6</option>
+                <option value="7">Lớp 7</option>
+                <option value="8">Lớp 8</option>
+                <option value="9">Lớp 9</option>
             </select>
         </div>
 
-        <!-- ✅ THÊM MỚI: Loại tài liệu -->
+       
         <div class="form-group">
             <label for="docTypeCategory">Loại tài liệu: <span class="required">*</span></label>
             <select id="docTypeCategory" required>
