@@ -20,9 +20,6 @@ Thumbs.db
 # Logs
 *.log
 
-# Uploads / generated content
-static/uploads/
-!static/uploads/.gitkeep
 
 # IDE/project settings
 .vscode/
